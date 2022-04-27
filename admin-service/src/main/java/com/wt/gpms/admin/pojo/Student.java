@@ -1,43 +1,45 @@
-package com.wt.gpms.teacher.pojo;
+package com.wt.gpms.admin.pojo;
 
-public class Teacher {
-    private Integer tId;
-    private Integer tNo;
+public class Student {
+    private Integer sId;
+    private Integer sNo;
     private String name;
     private String gender;
     private String school;
-    private String title;
+    private String major;
+    private String classNo;
     private String tele;
     private String email;
 
-    public Teacher() {
+    public Student() {
     }
 
-    public Teacher(Integer tId, Integer tNo, String name, String gender, String school, String title, String tele, String email) {
-        this.tId = tId;
-        this.tNo = tNo;
+    public Student(Integer sId, Integer sNo, String name, String gender, String school, String major, String classNo, String tele, String email) {
+        this.sId = sId;
+        this.sNo = sNo;
         this.name = name;
         this.gender = gender;
         this.school = school;
-        this.title = title;
+        this.major = major;
+        this.classNo = classNo;
         this.tele = tele;
         this.email = email;
     }
 
-    public Integer gettId() {
-        return tId;
+    public Integer getsId() {
+        return sId;
     }
 
-    public void settId(Integer tId) {
-        this.tId = tId;
+    public void setsId(Integer sId) {
+        this.sId = sId;
     }
 
-    public Integer gettNo() {
-        return tNo;
+    public Integer getsNo() {
+        return sNo;
     }
 
-    public void settNo(Integer tNo) {
-        this.tNo = tNo;
+    public void setsNo(Integer sNo) {
+        this.sNo = sNo;
     }
 
     public String getName() {
@@ -64,12 +66,20 @@ public class Teacher {
         this.school = school;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMajor() {
+        return major;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getClassNo() {
+        return classNo;
+    }
+
+    public void setClassNo(String classNo) {
+        this.classNo = classNo;
     }
 
     public String getTele() {
@@ -90,13 +100,14 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "tId=" + tId +
-                ", tNo=" + tNo +
+        return "Student{" +
+                "sId=" + sId +
+                ", sNo=" + sNo +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
                 ", school='" + school + '\'' +
-                ", title='" + title + '\'' +
+                ", major='" + major + '\'' +
+                ", classNo='" + classNo + '\'' +
                 ", tele='" + tele + '\'' +
                 ", email='" + email + '\'' +
                 '}';

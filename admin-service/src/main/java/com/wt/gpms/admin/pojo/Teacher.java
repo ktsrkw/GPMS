@@ -1,4 +1,4 @@
-package com.wt.gpms.teacher.pojo;
+package com.wt.gpms.admin.pojo;
 
 public class Teacher {
     private Integer tId;

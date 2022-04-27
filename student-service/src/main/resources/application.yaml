@@ -1,5 +1,7 @@
 server:
   port: 8081
+  servlet:
+    context-path: /student # 访问本服务所有的请求都要加上/student前缀（用于gateway断言）
 
 spring:
   datasource:
@@ -7,6 +9,11 @@ spring:
     url: jdbc:mysql://localhost:3306/gpms?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
+  application:
+    name: student-service
+  cloud:
+    nacos:
+      server-addr: localhost:8848
 
 mybatis:
   type-aliases-package: com.wt.gpms.student.pojo

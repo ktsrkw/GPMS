@@ -40,3 +40,5 @@ README.md
 **/mvnw.cmd
 **/target/
 **/src/test/
+**/.gitignore
+**/README.md
