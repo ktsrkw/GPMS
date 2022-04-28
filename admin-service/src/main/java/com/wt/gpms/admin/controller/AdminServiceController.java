@@ -8,7 +8,6 @@ import com.wt.gpms.admin.pojo.Teacher;
 import com.wt.gpms.admin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,12 +40,6 @@ public class AdminServiceController {
     @RequestMapping("/teacher/all")
     public List<Teacher> getAllTeachers(){
         return teacherClient.getAllTeachers();
-    }
-
-    @RequestMapping("/student/manage")
-    public String toStudentManagePage(Model model){
-        model.addAttribute("students", studentClient.getAllStudents());
-        return "student-manage";
     }
 
 }

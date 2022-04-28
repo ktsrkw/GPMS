@@ -18,4 +18,29 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> allStudents() {
         return studentMapper.allStudents();
     }
+
+    @Override
+    public Student getStudentById(Integer sId) {
+        return studentMapper.getStudentById(sId);
+    }
+
+    @Override
+    public int updateStudentInfo(Student student) {
+        return studentMapper.updateStudentInfo(student);
+    }
+
+    @Override
+    public int deleteStudentById(Integer sId) {
+        return studentMapper.deleteStudentById(sId);
+    }
+
+    @Override
+    public List<Student> searchStudent(String searchString) {
+        return studentMapper.searchStudent(searchString);
+    }
+
+    @Override
+    public int addStudent(Student student) {
+        return studentMapper.addStudent(student);
+    }
 }

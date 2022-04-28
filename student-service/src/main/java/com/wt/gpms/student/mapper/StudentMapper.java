@@ -10,4 +10,14 @@ import java.util.List;
 @Repository
 public interface StudentMapper {
     List<Student> allStudents();
+
+    Student getStudentById(Integer sId);
+
+    int updateStudentInfo(Student student);
+
+    int deleteStudentById(Integer sId);
+
+    List<Student> searchStudent(String searchString);
+
+    int addStudent(Student student);
 }
