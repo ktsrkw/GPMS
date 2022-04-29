@@ -2,7 +2,7 @@ package com.wt.gpms.admin.pojo;
 
 public class Student {
     private Integer sId;
-    private Integer sNo;
+    private String sNo;
     private String name;
     private String gender;
     private String school;
@@ -10,11 +10,12 @@ public class Student {
     private String classNo;
     private String tele;
     private String email;
+    private String password;
 
     public Student() {
     }
 
-    public Student(Integer sId, Integer sNo, String name, String gender, String school, String major, String classNo, String tele, String email) {
+    public Student(Integer sId, String sNo, String name, String gender, String school, String major, String classNo, String tele, String email, String password) {
         this.sId = sId;
         this.sNo = sNo;
         this.name = name;
@@ -24,6 +25,7 @@ public class Student {
         this.classNo = classNo;
         this.tele = tele;
         this.email = email;
+        this.password = password;
     }
 
     public Integer getsId() {
@@ -34,11 +36,11 @@ public class Student {
         this.sId = sId;
     }
 
-    public Integer getsNo() {
+    public String getsNo() {
         return sNo;
     }
 
-    public void setsNo(Integer sNo) {
+    public void setsNo(String sNo) {
         this.sNo = sNo;
     }
 
@@ -98,6 +100,14 @@ public class Student {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -110,6 +120,7 @@ public class Student {
                 ", classNo='" + classNo + '\'' +
                 ", tele='" + tele + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

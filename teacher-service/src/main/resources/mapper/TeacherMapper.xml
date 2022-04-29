@@ -6,4 +6,90 @@
     <select id="allTeachers" resultType="Teacher">
         select * from `teacher`
     </select>
+
+    <resultMap type="Teacher" id="TeacherResult">
+        <result property="tId"    column="t_id"    />
+        <result property="tNo"    column="t_no"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="school"    column="school"    />
+        <result property="title"    column="title"    />
+        <result property="tele"    column="tele"    />
+        <result property="email"    column="email"    />
+        <result property="password"    column="password"    />
+    </resultMap>
+
+    <sql id="selectTeacherVo">
+        select t_id, t_no, name, gender, school, title, tele, email, password from teacher
+    </sql>
+
+    <select id="selectTeacherList" parameterType="Teacher" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        <where>
+            <if test="tNo != null  and tNo != ''"> and t_no = #{tNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="school != null  and school != ''"> and school = #{school}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="tele != null  and tele != ''"> and tele = #{tele}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+        </where>
+    </select>
+
+    <select id="selectTeacherById" parameterType="Integer" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        where t_id = #{tId}
+    </select>
+
+    <insert id="insertTeacher" parameterType="Teacher">
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tId != null">t_id,</if>
+            <if test="tNo != null">t_no,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="school != null">school,</if>
+            <if test="title != null">title,</if>
+            <if test="tele != null">tele,</if>
+            <if test="email != null">email,</if>
+            <if test="password != null">password,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tId != null">#{tId},</if>
+            <if test="tNo != null">#{tNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="school != null">#{school},</if>
+            <if test="title != null">#{title},</if>
+            <if test="tele != null">#{tele},</if>
+            <if test="email != null">#{email},</if>
+            <if test="password != null">#{password},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTeacher" parameterType="Teacher">
+        update teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tNo != null">t_no = #{tNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="tele != null">tele = #{tele},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password},</if>
+        </trim>
+        where t_id = #{tId}
+    </update>
+
+    <delete id="deleteTeacherById" parameterType="Integer">
+        delete from teacher where t_id = #{tId}
+    </delete>
+
+    <delete id="deleteTeacherByIds" parameterType="Integer">
+        delete from teacher where t_id in
+        <foreach item="tId" collection="array" open="(" separator="," close=")">
+            #{tId}
+        </foreach>
+    </delete>
 </mapper>

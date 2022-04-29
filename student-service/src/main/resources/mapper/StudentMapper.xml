@@ -33,6 +33,7 @@
             <if test="classNo != null">class_no = #{classNo},</if>
             <if test="tele != null">tele = #{tele},</if>
             <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password},</if>
         </trim>
         where s_id = #{sId}
     </update>
@@ -52,6 +53,7 @@
             <if test="classNo != null">class_no,</if>
             <if test="tele != null">tele,</if>
             <if test="email != null">email,</if>
+            <if test="password != null">password,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sNo != null">#{sNo},</if>
@@ -62,6 +64,7 @@
             <if test="classNo != null">#{classNo},</if>
             <if test="tele != null">#{tele},</if>
             <if test="email != null">#{email},</if>
+            <if test="password != null">#{password},</if>
         </trim>
     </insert>
 </mapper>
