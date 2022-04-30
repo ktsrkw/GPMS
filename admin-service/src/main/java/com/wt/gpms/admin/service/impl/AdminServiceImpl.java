@@ -18,4 +18,9 @@ public class AdminServiceImpl implements AdminService {
     public List<Admin> allAdmins() {
         return adminMapper.allAdmins();
     }
+
+    @Override
+    public Admin selectAdminByName(String username) {
+        return adminMapper.selectAdminByName(username);
+    }
 }

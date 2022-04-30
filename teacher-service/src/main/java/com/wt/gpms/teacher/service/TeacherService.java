@@ -54,4 +54,8 @@ public interface TeacherService {
      * @return 结果
      */
     public int deleteTeacherByIds(Integer[] tIds);
+
+    List<Teacher> searchTeachers(String searchString);
+
+    Teacher selectTeacherByNo(String tNo);
 }

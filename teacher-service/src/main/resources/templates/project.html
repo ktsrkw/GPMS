@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>学生信息管理</title>
+    <title>我的课题</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 </head>
 
@@ -18,7 +18,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <form class="layui-form layui-form-pane" th:action="@{/student/manage/search}" method="post">
+            <form class="layui-form layui-form-pane" th:action="@{/project/search}" method="post">
                 <div class="layui-form-item">
                     <label class="layui-form-label">
                         <button class="layui-btn layui-btn-fluid layui-btn-xs layui-btn-primary" lay-submit type="submit">搜索</button>
@@ -28,35 +28,27 @@
                     </div>
                 </div>
             </form>
-            <a th:href="@{/student/manage/add}" class="layui-btn layui-btn-primary layui-btn-fluid layui-border-green">添加</a>
             <table class="layui-table">
                 <thead>
                 <tr>
-                    <th>学号</th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>学院</th>
-                    <th>专业</th>
-                    <th>班级</th>
-                    <th>电话</th>
-                    <th>邮箱</th>
+                    <th>课题题目</th>
+                    <th>课题类型</th>
+                    <th>课题性质</th>
+                    <th>课题状态</th>
+                    <th>创建时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="student:${students}">
-                    <td th:text="${student.getsNo()}"></td>
-                    <td th:text="${student.getName()}"></td>
-                    <td th:text="${student.getGender()}"></td>
-                    <td th:text="${student.getSchool()}"></td>
-                    <td th:text="${student.getMajor()}"></td>
-                    <td th:text="${student.getClassNo()}"></td>
-                    <td th:text="${student.getTele()}"></td>
-                    <td th:text="${student.getEmail()}"></td>
+                <tr th:each="project:${projects}">
+                    <td th:text="${project.getTitle()}"></td>
+                    <td th:text="${project.getType()}"></td>
+                    <td th:text="${project.getNature()}"></td>
+                    <td th:text="${project.getStatus()}"></td>
+                    <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a class="layui-btn layui-btn-sm" th:href="@{/student/manage/update/}+${student.getsId}">编辑</a>
-                            <a class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/student/manage/delete/}+${student.getsId}">删除</a>
+                            <a class="layui-btn layui-btn-sm" th:href="@{/project/}+${project.getpId()}">详细信息</a>
                         </div>
                     </td>
                 </tr>

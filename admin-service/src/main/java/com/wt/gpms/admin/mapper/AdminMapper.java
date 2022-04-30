@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface AdminMapper {
     List<Admin> allAdmins();
+
+    Admin selectAdminByName(String username);
 }

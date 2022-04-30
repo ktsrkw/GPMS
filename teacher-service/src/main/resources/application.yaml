@@ -2,6 +2,8 @@ server:
   port: 8082
   servlet:
     context-path: /teacher # 访问本服务所有的请求都要加上/teacher前缀（用于gateway断言）
+    session:
+      tracking-modes: COOKIE
 
 spring:
   datasource:

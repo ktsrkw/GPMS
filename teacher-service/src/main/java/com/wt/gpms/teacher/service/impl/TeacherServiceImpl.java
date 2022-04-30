@@ -48,4 +48,14 @@ public class TeacherServiceImpl implements TeacherService {
     public int deleteTeacherByIds(Integer[] tIds) {
         return teacherMapper.deleteTeacherByIds(tIds);
     }
+
+    @Override
+    public List<Teacher> searchTeachers(String searchString) {
+        return teacherMapper.searchTeachers(searchString);
+    }
+
+    @Override
+    public Teacher selectTeacherByNo(String tNo) {
+        return teacherMapper.selectTeacherByNo(tNo);
+    }
 }

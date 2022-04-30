@@ -36,6 +36,11 @@
         </where>
     </select>
 
+    <select id="selectTeacherByNo" parameterType="String" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        where t_no = #{tNo}
+    </select>
+
     <select id="selectTeacherById" parameterType="Integer" resultMap="TeacherResult">
         <include refid="selectTeacherVo"/>
         where t_id = #{tId}
@@ -92,4 +97,14 @@
             #{tId}
         </foreach>
     </delete>
+
+    <select id="searchTeachers" parameterType="String" resultType="Teacher">
+        select * from `teacher` where name like concat('%',#{searchString},'%')
+                                   or school like concat('%',#{searchString},'%')
+                                   or title like concat('%',#{searchString},'%')
+                                   or t_no like concat('%',#{searchString},'%')
+                                   or tele like concat('%',#{searchString},'%')
+                                   or email like concat('%',#{searchString},'%')
+                                   or gender like concat('%',#{searchString},'%')
+    </select>
 </mapper>

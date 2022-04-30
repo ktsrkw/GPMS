@@ -5,10 +5,9 @@ import com.wt.gpms.admin.pojo.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class StudentManageController {
@@ -65,9 +64,17 @@ public class StudentManageController {
     //添加学生功能
     @PostMapping("/student/manage/add")
     public String addStudent(Student student){
+        //账户默认密码
+        student.setPassword("123456");
         studentClient.addStudent(student);
 
         return "redirect:/student/manage";
+    }
+
+    @ResponseBody
+    @RequestMapping("/student/all")
+    public List<Student> getAllStudents(){
+        return studentClient.getAllStudents();
     }
 
 }

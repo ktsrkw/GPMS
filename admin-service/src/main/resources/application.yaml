@@ -2,6 +2,8 @@ server:
   port: 8083
   servlet:
     context-path: /admin # 访问本服务所有的请求都要加上/admin前缀（用于gateway断言）
+    session:
+      tracking-modes: COOKIE
 
 spring:
   datasource:
@@ -22,6 +24,8 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true #开启驼峰命名转换
+
+
 
 
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/ex/LjjStyle1.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+</head>
+<body bgcolor="#393D49">
+<div class="Ljjstyle1">
+    </br>
+    </br>
+    </br>
+    <h1 style="color: white">毕业设计管理系统</h1>
+    </br>
+    </br>
+    </br>
+    <form class="layui-form" th:action="@{/login}" method="post">
+        <span th:text="${msg}" style="color:white"></span><!--认证失败，打印出提示信息-->
+        <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <br/>
+        <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </br>
+        </br>
+        <div>
+            <button lay-submit type="submit" class="layui-btn layui-btn-lg">登录</button>
+        </div>
+    </form>
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    ;!function(){
+    }();
+</script>
+</body>
+</html>

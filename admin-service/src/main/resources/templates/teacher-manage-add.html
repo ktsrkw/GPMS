@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>修改学生信息</title>
+    <title>新增教师信息</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 </head>
 <body>
@@ -17,61 +17,53 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <form class="layui-form" th:action="@{/student/manage/update}" method="post">
-                <input type="hidden" name="sId" th:value="${student.getsId()}">
+            <form class="layui-form" th:action="@{/teacher/manage/add}" method="post">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">学号</label>
+                    <label class="layui-form-label">教师号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="sNo" th:value="${student.getsNo()}" required  lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="tNo" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" th:value="${student.getName()}" required  lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="name" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">性别</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="gender" value="男" title="男" th:checked="${student.getGender().equals('男')}">
-                        <input type="radio" name="gender" value="女" title="女" th:checked="${student.getGender().equals('女')}">
+                        <input type="radio" name="gender" value="男" title="男">
+                        <input type="radio" name="gender" value="女" title="女">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">学院</label>
                     <div class="layui-input-block">
-                        <input type="text" name="school" th:value="${student.getSchool()}" required  lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="school" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">专业</label>
+                    <label class="layui-form-label">职称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="major" th:value="${student.getMajor()}" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">班级</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="classNo" th:value="${student.getClassNo()}" required  lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">电话</label>
                     <div class="layui-input-block">
-                        <input type="text" name="tele" th:value="${student.getTele()}" required  lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="tele" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">邮箱</label>
                     <div class="layui-input-block">
-                        <input type="text" name="email" th:value="${student.getEmail()}" required  autocomplete="off" class="layui-input">
+                        <input type="text" name="email" required  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit type="submit">保存修改</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" lay-submit type="submit">添加</button>
                     </div>
                 </div>
             </form>
@@ -81,7 +73,6 @@
     <!--引入公共底部-->
     <div th:replace="common :: #common-bottom"></div>
 </div>
-
 <!--引入公共script-->
 <div th:replace="common :: #common-script"></div>
 </body>
