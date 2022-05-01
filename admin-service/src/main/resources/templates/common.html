@@ -31,10 +31,9 @@
             <li class="layui-nav-item">
                 <a class="" href="javascript:;">毕设课题管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">menu 1</a></dd>
-                    <dd><a href="javascript:;">menu 2</a></dd>
-                    <dd><a href="javascript:;">menu 3</a></dd>
-                    <dd><a href="">the links</a></dd>
+                    <dd><a th:href="@{/project/manage/approved}">已审批课题管理</a></dd>
+                    <dd><a th:href="@{/project/manage/approving}">待审批课题管理</a></dd>
+                    <dd><a th:href="@{/project/manage/open-close}">立题选题开放与关闭</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a th:href="@{/student/manage}">学生账户管理</a></li>

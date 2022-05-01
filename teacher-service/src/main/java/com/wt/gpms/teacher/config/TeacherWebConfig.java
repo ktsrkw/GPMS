@@ -6,11 +6,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class AdminWebConfig implements WebMvcConfigurer {
+public class TeacherWebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login.html","/layui/**","/ex/**","/login");
+                .excludePathPatterns("/login.html","/layui/**","/ex/**","/login","/feign/**","/");
     }
 }

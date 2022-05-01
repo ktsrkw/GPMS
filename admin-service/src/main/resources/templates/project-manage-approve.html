@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增立题</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
+
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <form class="layui-form" th:action="@{/project/approve}" method="post">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题题目</label>
+                    <div class="layui-input-block">
+                        <input th:value="${project.getTitle()}" disabled="disabled" type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">课题描述</label>
+                    <div class="layui-input-block">
+                        <textarea th:text="${project.getContent()}" disabled="disabled" name="content" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题类型</label>
+                    <div class="layui-input-block">
+                        <input th:checked="${project.getType().equals('设计')}" disabled type="radio" name="type" value="设计" title="设计">
+                        <input th:checked="${project.getType().equals('论文')}" disabled type="radio" name="type" value="论文" title="论文">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题性质</label>
+                    <div class="layui-input-block">
+                        <select name="nature" lay-verify="required">
+                            <option th:selected="${project.getNature().equals('模拟题')}" disabled value="模拟题">模拟题</option>
+                            <option th:selected="${project.getNature().equals('实际题')}" disabled value="实际题">实际题</option>
+                            <option th:selected="${project.getNature().equals('科研题')}" disabled value="科研题">科研题</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">立题教师号</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.gettNo()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教师姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getName()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属学院</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getSchool()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教师职称</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getTitle()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pNo" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入课题编号">
+                    </div>
+                </div>
+                <input type="hidden" name="pId" th:value="${project.getpId()}">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit type="submit">审批通过</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
+</body>
+</html>

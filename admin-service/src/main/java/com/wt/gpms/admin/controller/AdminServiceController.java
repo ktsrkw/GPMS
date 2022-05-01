@@ -29,7 +29,7 @@ public class AdminServiceController {
     }
 
     //路由到登陆页面
-    @GetMapping("/login.html")
+    @GetMapping({"/login.html","/"})
     public String toAdminLoginPage(){
         return "admin-login";
     }
@@ -43,6 +43,7 @@ public class AdminServiceController {
             if (admin.getPassword().equals(password)){
                 //登录成功的标识，在session中放入用户名
                 session.setAttribute("username", admin.getName());
+                session.setAttribute("adminId", admin.getAdminId());
                 return "redirect:/student/manage";
             } else {
                 //密码错误

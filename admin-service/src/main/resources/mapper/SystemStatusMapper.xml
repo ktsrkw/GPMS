@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.gpms.admin.mapper.SystemStatusMapper">
+    <select id="getCreateStatus" resultType="Integer">
+        select status from `system_status` where id = 'create'
+    </select>
+
+    <select id="getChooseStatus" resultType="Integer">
+        select status from `system_status` where id = 'choose'
+    </select>
+
+    <update id="closeCreate">
+        update `system_status` set `status` = 0 where id = 'create'
+    </update>
+
+    <update id="openCreate">
+        update `system_status` set `status` = 1 where id = 'create'
+    </update>
+
+    <update id="closeChoose">
+        update `system_status` set `status` = 0 where id = 'choose'
+    </update>
+
+    <update id="openChoose">
+        update `system_status` set `status` = 1 where id = 'choose'
+    </update>
+</mapper>

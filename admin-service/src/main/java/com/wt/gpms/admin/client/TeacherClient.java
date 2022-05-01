@@ -9,21 +9,21 @@ import java.util.List;
 @FeignClient("teacher-service")
 public interface TeacherClient {
 
-    @RequestMapping("/teacher/all")
+    @RequestMapping("/teacher/feign/all")
     List<Teacher> getAllTeachers();
 
-    @RequestMapping("/teacher/{tId}")
+    @RequestMapping("/teacher/feign/{tId}")
     Teacher getTeacherById(@PathVariable("tId") Integer tId);
 
-    @PostMapping("/teacher/update")
+    @PostMapping("/teacher/feign/update")
     Integer updateTeacherInfo(@RequestBody Teacher teacher);
 
-    @GetMapping("/teacher/delete/{tId}")
+    @GetMapping("/teacher/feign/delete/{tId}")
     Integer deleteTeacher(@PathVariable("tId") Integer tId);
 
-    @PostMapping("/teacher/add")
+    @PostMapping("/teacher/feign/add")
     Integer addTeacher(@RequestBody Teacher teacher);
 
-    @PostMapping("/teacher/search")
+    @PostMapping("/teacher/feign/search")
     List<Teacher> searchTeachers(@RequestBody String searchString);
 }

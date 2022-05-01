@@ -53,7 +53,7 @@ public class TeacherServiceController {
     }
 
     //路由到登陆页面
-    @GetMapping("/login.html")
+    @GetMapping({"/login.html","/"})
     public String toTeacherLoginPage(){
         return "teacher-login";
     }

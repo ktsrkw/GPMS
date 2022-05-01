@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增立题</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
+
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>功能</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>立题功能</td>
+                    <td th:text="${createStatus.equals(0)?'不可用':'可用'}"></td>
+                    <td>
+                        <div class="layui-btn-group">
+                            <a th:if="${createStatus.equals(0)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/open/create}">开放立题</a>
+                            <a th:if="${createStatus.equals(1)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/close/create}">关闭立题</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>选题功能</td>
+                    <td th:text="${chooseStatus.equals(0)?'不可用':'可用'}"></td>
+                    <td>
+                        <div class="layui-btn-group">
+                            <a th:if="${chooseStatus.equals(0)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/open/choose}">开放选题</a>
+                            <a th:if="${chooseStatus.equals(1)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/close/choose}">关闭选题</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
+</body>
+</html>
