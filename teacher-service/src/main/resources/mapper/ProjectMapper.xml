@@ -113,4 +113,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <select id="searchProjects" parameterType="String" resultMap="ProjectResult">
+        select * from `project` where title like concat('%',#{searchString},'%')
+                                   or `type` like concat('%',#{searchString},'%')
+                                   or nature like concat('%',#{searchString},'%')
+                                   or status like concat('%',#{searchString},'%')
+    </select>
+
 </mapper>

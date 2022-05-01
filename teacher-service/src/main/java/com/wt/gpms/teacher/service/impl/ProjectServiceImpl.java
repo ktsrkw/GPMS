@@ -42,4 +42,9 @@ public class ProjectServiceImpl implements ProjectService {
     public int deleteProjectByIds(Integer[] pIds) {
         return projectMapper.deleteProjectByIds(pIds);
     }
+
+    @Override
+    public List<Project> searchProjects(String searchString) {
+        return projectMapper.searchProjects(searchString);
+    }
 }

@@ -63,4 +63,6 @@ public interface ProjectMapper
      * @return 结果
      */
     int deleteProjectByIds(Integer[] pIds);
+
+    List<Project> searchProjects(String searchString);
 }

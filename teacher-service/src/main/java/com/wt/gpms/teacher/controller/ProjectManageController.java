@@ -2,25 +2,32 @@ package com.wt.gpms.teacher.controller;
 
 import com.wt.gpms.teacher.pojo.Project;
 import com.wt.gpms.teacher.service.ProjectService;
+import com.wt.gpms.teacher.service.SystemStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class ProjectManageController {
     @Autowired
     ProjectService projectService;
 
+    @Autowired
+    SystemStatusService systemStatusService;
+
     //路由到教师的课题页面
     @GetMapping("/project")
     public String toTeacherProjectPage(HttpSession session, Model model){
-        //拿到教师所有的立题信息
+        //拿到该教师教师所有的立题信息
         Project project = new Project();
         project.settId((Integer) session.getAttribute("tId"));
         model.addAttribute("projects",projectService.selectProjectList(project));
@@ -30,7 +37,10 @@ public class ProjectManageController {
 
     //路由到新增立题页面
     @GetMapping("/project/add")
-    public String toProjectAddPage(){
+    public String toProjectAddPage(Model model){
+        //判断立题功能是否开启
+        model.addAttribute("createStatus",systemStatusService.getCreateStatus());
+
         return "project-add";
     }
 
@@ -44,6 +54,29 @@ public class ProjectManageController {
         projectService.insertProject(project);
 
         return "redirect:/project";
+    }
+
+    //搜索当前教师的立题
+    @PostMapping("/project/search")
+    public String searchProjects(String searchString, Model model, HttpSession session){
+        List<Project> projectList = projectService.searchProjects(searchString);
+        List<Project> projects = new ArrayList<>();
+        for (Project project : projectList) {
+            if (project.gettId().equals((Integer)session.getAttribute("tId"))){
+                projects.add(project);
+            }
+        }
+        model.addAttribute("projects",projects);
+
+        return "project";
+    }
+
+    //到课题详细信息页面
+    @GetMapping("/project/{pId}")
+    public String projectInfo(@PathVariable("pId") Integer pId, Model model){
+        model.addAttribute("project", projectService.selectProjectById(pId));
+
+        return "project-info";
     }
 
 }

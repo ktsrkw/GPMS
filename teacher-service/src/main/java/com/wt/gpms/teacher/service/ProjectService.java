@@ -18,4 +18,6 @@ public interface ProjectService {
 
     int deleteProjectByIds(Integer[] pIds);
 
+    List<Project> searchProjects(String searchString);
+
 }

@@ -18,13 +18,13 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <form class="layui-form">
-                <div class="layui-form-item">
+                <div th:if="${project.getpNo() != null}" class="layui-form-item">
                     <label class="layui-form-label">课题编号</label>
                     <div class="layui-input-block">
                         <input th:value="${project.getpNo()}" disabled="disabled" type="text" name="pNo" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入课题编号">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div th:if="${project.getpNo() != null}" class="layui-form-item">
                     <label class="layui-form-label">审批通过时间</label>
                     <div class="layui-input-block">
                         <input th:value="${#dates.format(project.getApproveTime(),'yyyy-MM-dd')}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入课题编号">
@@ -69,30 +69,6 @@
                     <label class="layui-form-label">课题创建时间</label>
                     <div class="layui-input-block">
                         <input th:value="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">立题教师号</label>
-                    <div class="layui-input-block">
-                        <input type="text" th:value="${teacher.gettNo()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">教师姓名</label>
-                    <div class="layui-input-block">
-                        <input type="text" th:value="${teacher.getName()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">所属学院</label>
-                    <div class="layui-input-block">
-                        <input type="text" th:value="${teacher.getSchool()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">教师职称</label>
-                    <div class="layui-input-block">
-                        <input type="text" th:value="${teacher.getTitle()}" disabled="disabled" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </form>
