@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.gpms.teacher.mapper.ProjectFileMapper">
+    
+    <resultMap type="ProjectFile" id="ProjectFileResult">
+        <result property="pfId"    column="pf_id"    />
+        <result property="pId"    column="p_id"    />
+        <result property="psId"    column="ps_id"    />
+        <result property="url"    column="url"    />
+        <result property="title"    column="title"    />
+        <result property="path"    column="path"    />
+    </resultMap>
+
+    <sql id="selectProjectFileVo">
+        select pf_id, p_id, ps_id, url, title, path from project_file
+    </sql>
+
+    <select id="selectProjectFileList" parameterType="ProjectFile" resultMap="ProjectFileResult">
+        <include refid="selectProjectFileVo"/>
+        <where>  
+            <if test="pId != null  and pId != ''"> and p_id = #{pId}</if>
+            <if test="psId != null  and psId != ''"> and ps_id = #{psId}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectFileById" parameterType="Integer" resultMap="ProjectFileResult">
+        <include refid="selectProjectFileVo"/>
+        where pf_id = #{pfId}
+    </select>
+        
+    <insert id="insertProjectFile" parameterType="ProjectFile">
+        insert into project_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pfId != null">pf_id,</if>
+            <if test="pId != null">p_id,</if>
+            <if test="psId != null">ps_id,</if>
+            <if test="url != null">url,</if>
+            <if test="title != null">title,</if>
+            <if test="path != null">path,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pfId != null">#{pfId},</if>
+            <if test="pId != null">#{pId},</if>
+            <if test="psId != null">#{psId},</if>
+            <if test="url != null">#{url},</if>
+            <if test="title != null">#{title},</if>
+            <if test="path != null">#{path},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectFile" parameterType="ProjectFile">
+        update project_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pId != null">p_id = #{pId},</if>
+            <if test="psId != null">ps_id = #{psId},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="path != null">path = #{path},</if>
+        </trim>
+        where pf_id = #{pfId}
+    </update>
+
+    <delete id="deleteProjectFileById" parameterType="Integer">
+        delete from project_file where pf_id = #{pfId}
+    </delete>
+
+    <delete id="deleteProjectFileByIds" parameterType="Integer">
+        delete from project_file where pf_id in 
+        <foreach item="pfId" collection="array" open="(" separator="," close=")">
+            #{pfId}
+        </foreach>
+    </delete>
+
+</mapper>

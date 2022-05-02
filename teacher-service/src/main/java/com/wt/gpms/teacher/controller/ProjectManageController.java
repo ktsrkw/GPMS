@@ -1,7 +1,9 @@
 package com.wt.gpms.teacher.controller;
 
 import com.wt.gpms.teacher.pojo.Project;
+import com.wt.gpms.teacher.pojo.ProjectStage;
 import com.wt.gpms.teacher.service.ProjectService;
+import com.wt.gpms.teacher.service.ProjectStageService;
 import com.wt.gpms.teacher.service.SystemStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -23,6 +25,9 @@ public class ProjectManageController {
 
     @Autowired
     SystemStatusService systemStatusService;
+
+    @Autowired
+    ProjectStageService projectStageService;
 
     //路由到教师的课题页面
     @GetMapping("/project")
@@ -52,6 +57,18 @@ public class ProjectManageController {
         project.setCreateTime(new Date());
         project.settId((Integer) session.getAttribute("tId"));
         projectService.insertProject(project);
+
+        //将这个立题的各阶段也新增进数据库
+        //首先要得到刚才新增数据的pId，然后将阶段与pId绑定在一起
+        List<Project> projectList = projectService.selectProjectList(project);
+        Integer pId = projectList.get(0).getpId();
+        projectStageService.insertProjectStage(new ProjectStage(pId,"立题表提交阶段",0));
+        projectStageService.insertProjectStage(new ProjectStage(pId,"任务书提交阶段",0));
+        projectStageService.insertProjectStage(new ProjectStage(pId,"论文翻译提交阶段",0));
+        projectStageService.insertProjectStage(new ProjectStage(pId,"开题报告提交阶段",0));
+        projectStageService.insertProjectStage(new ProjectStage(pId,"中期检查阶段",0));
+        projectStageService.insertProjectStage(new ProjectStage(pId,"论文提交阶段",0));
+        projectStageService.insertProjectStage(new ProjectStage(pId,"答辩阶段",0));
 
         return "redirect:/project";
     }

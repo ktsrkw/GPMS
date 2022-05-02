@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改学生信息</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
+
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <form class="layui-form" th:action="@{/project/stage/update}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="psId" th:value="${projectStage.getPsId()}">
+                <input type="hidden" name="pId" th:value="${projectStage.getpId()}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">阶段名</label>
+                    <div class="layui-input-block">
+                        <input type="text" disabled="disabled" th:value="${projectStage.getName()}" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">阶段要求</label>
+                    <div class="layui-input-block">
+                        <textarea th:text="${projectStage.getContent()}" name="content" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传文件</label>
+                    <div class="layui-input-block">
+                        <input type="file" name="uploadFiles" multiple>
+<!--                        <p>*可按住Ctrl键同时选中多张上传，总大小小于500MB*</p>-->
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit type="submit">保存修改</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
+</body>
+</html>
