@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -104,9 +105,9 @@ public class ProjectStageManageController {
                     uploadFile.transferTo(uploadedFile);
 
                     //4、获取上传文件的访问路径
-                    //这里的/files是为了访问的映射路径
+                    //这里的/files是为了访问的映射路径，别忘了本项目的访问前缀/teacher
                     String fileURL = request.getScheme() + "://" + request.getServerName() + ":"
-                            + request.getServerPort() + "/files/" + newFileName;
+                            + request.getServerPort() + "/teacher/files/" + newFileName;
 
                     //设置文件保存路径
                     projectFile.setPath(savePath + "\\" + newFileName);
@@ -120,6 +121,20 @@ public class ProjectStageManageController {
         }
 
         return "redirect:/project/stage";
+    }
+
+    @PostMapping("/project/stage/search")
+    public String searchProjects(String searchString, Model model, HttpSession session){
+        List<Project> projectList = projectService.searchProjects(searchString);
+        List<Project> projects = new ArrayList<>();
+        for (Project project : projectList) {
+            if (project.gettId().equals((Integer)session.getAttribute("tId"))){
+                projects.add(project);
+            }
+        }
+        model.addAttribute("projects",projects);
+
+        return "project-stage";
     }
 
 }

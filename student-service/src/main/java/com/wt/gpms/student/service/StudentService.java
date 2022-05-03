@@ -16,4 +16,6 @@ public interface StudentService {
     List<Student> searchStudent(String searchString);
 
     int addStudent(Student student);
+
+    Student selectStudentByNo(String sNo);
 }

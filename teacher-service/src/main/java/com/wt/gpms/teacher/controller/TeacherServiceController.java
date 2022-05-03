@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -26,12 +27,6 @@ public class TeacherServiceController {
     @RequestMapping("/{tId}")
     public Teacher getTeacherById(@PathVariable("tId") Integer tId){
         return teacherService.selectTeacherById(tId);
-    }
-
-    @ResponseBody
-    @PostMapping("/update")
-    public Integer updateTeacherInfo(@RequestBody Teacher teacher){
-        return teacherService.updateTeacher(teacher);
     }
 
     @ResponseBody
@@ -91,6 +86,26 @@ public class TeacherServiceController {
         session.removeAttribute("name");
         session.removeAttribute("title");
         return "redirect:/login.html";
+    }
+
+    //路由到更新信息页面
+    @GetMapping("/update")
+    public String toUpdatePage(Model model, HttpSession session){
+        model.addAttribute("teacher",
+                teacherService.selectTeacherById((Integer) session.getAttribute("tId")));
+
+        return "teacher-update";
+    }
+
+    //跟新信息
+    @PostMapping("/update")
+    public String updateInfo(Model model, Teacher teacher, HttpSession session){
+        teacherService.updateTeacher(teacher);
+        model.addAttribute("teacher",
+                teacherService.selectTeacherById((Integer) session.getAttribute("tId")));
+        model.addAttribute("msg","更新成功!");
+
+        return "teacher-update";
     }
 
 }

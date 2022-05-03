@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.gpms.student.mapper.ProjectMapper">
+    
+    <resultMap type="Project" id="ProjectResult">
+        <result property="pId"    column="p_id"    />
+        <result property="pNo"    column="p_no"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="type"    column="type"    />
+        <result property="nature"    column="nature"    />
+        <result property="status"    column="status"    />
+        <result property="point"    column="point"    />
+        <result property="selectionTime"    column="selection_time"    />
+        <result property="sId"    column="s_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="tId"    column="t_id"    />
+        <result property="approveTime"    column="approve_time"    />
+        <result property="adminId"    column="admin_id"    />
+    </resultMap>
+
+    <sql id="selectProjectVo">
+        select p_id, p_no, title, content, type, nature, status, point, selection_time, s_id, create_time, t_id, approve_time, admin_id from project
+    </sql>
+
+    <select id="selectProjectList" parameterType="Project" resultMap="ProjectResult">
+        <include refid="selectProjectVo"/>
+        <where>  
+            <if test="pNo != null  and pNo != ''"> and p_no = #{pNo}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="nature != null  and nature != ''"> and nature = #{nature}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="point != null  and point != ''"> and point = #{point}</if>
+            <if test="sId != null  and sId != ''"> and s_id = #{sId}</if>
+            <if test="tId != null  and tId != ''"> and t_id = #{tId}</if>
+            <if test="adminId != null  and adminId != ''"> and admin_id = #{adminId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectById" parameterType="Integer" resultMap="ProjectResult">
+        <include refid="selectProjectVo"/>
+        where p_id = #{pId}
+    </select>
+        
+    <insert id="insertProject" parameterType="Project">
+        insert into project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pId != null">p_id,</if>
+            <if test="pNo != null">p_no,</if>
+            <if test="title != null">title,</if>
+            <if test="content != null">content,</if>
+            <if test="type != null">type,</if>
+            <if test="nature != null">nature,</if>
+            <if test="status != null">status,</if>
+            <if test="point != null">point,</if>
+            <if test="selectionTime != null">selection_time,</if>
+            <if test="sId != null">s_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="tId != null">t_id,</if>
+            <if test="approveTime != null">approve_time,</if>
+            <if test="adminId != null">admin_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pId != null">#{pId},</if>
+            <if test="pNo != null">#{pNo},</if>
+            <if test="title != null">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="type != null">#{type},</if>
+            <if test="nature != null">#{nature},</if>
+            <if test="status != null">#{status},</if>
+            <if test="point != null">#{point},</if>
+            <if test="selectionTime != null">#{selectionTime},</if>
+            <if test="sId != null">#{sId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="tId != null">#{tId},</if>
+            <if test="approveTime != null">#{approveTime},</if>
+            <if test="adminId != null">#{adminId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProject" parameterType="Project">
+        update project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pNo != null">p_no = #{pNo},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="nature != null">nature = #{nature},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="point != null">point = #{point},</if>
+            <if test="selectionTime != null">selection_time = #{selectionTime},</if>
+            <if test="sId != null">s_id = #{sId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="tId != null">t_id = #{tId},</if>
+            <if test="approveTime != null">approve_time = #{approveTime},</if>
+            <if test="adminId != null">admin_id = #{adminId},</if>
+        </trim>
+        where p_id = #{pId}
+    </update>
+
+    <delete id="deleteProjectById" parameterType="Integer">
+        delete from project where p_id = #{pId}
+    </delete>
+
+    <delete id="deleteProjectByIds" parameterType="Integer">
+        delete from project where p_id in 
+        <foreach item="pId" collection="array" open="(" separator="," close=")">
+            #{pId}
+        </foreach>
+    </delete>
+
+    <select id="searchProjects" parameterType="String" resultMap="ProjectResult">
+        select * from `project` where title like concat('%',#{searchString},'%')
+                                   or `type` like concat('%',#{searchString},'%')
+                                   or nature like concat('%',#{searchString},'%')
+                                   or status like concat('%',#{searchString},'%')
+    </select>
+
+</mapper>

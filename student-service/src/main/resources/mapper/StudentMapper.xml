@@ -67,4 +67,8 @@
             <if test="password != null">#{password},</if>
         </trim>
     </insert>
+
+    <select id="selectStudentByNo" parameterType="String" resultType="Student">
+        select * from `student` where s_no = #{sNo}
+    </select>
 </mapper>

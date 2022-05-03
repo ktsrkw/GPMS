@@ -18,7 +18,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <form class="layui-form layui-form-pane" th:action="@{/project/stage/search}" method="post">
+            <form class="layui-form layui-form-pane" th:action="@{/project/search}" method="post">
                 <div class="layui-form-item">
                     <label class="layui-form-label">
                         <button class="layui-btn layui-btn-fluid layui-btn-xs layui-btn-primary" lay-submit type="submit">搜索</button>
@@ -34,8 +34,8 @@
                     <th>课题题目</th>
                     <th>课题类型</th>
                     <th>课题性质</th>
-                    <th>课题状态</th>
-                    <th>创建时间</th>
+                    <th>指导教师</th>
+                    <th>教师职称</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -44,11 +44,11 @@
                     <td th:text="${project.getTitle()}"></td>
                     <td th:text="${project.getType()}"></td>
                     <td th:text="${project.getNature()}"></td>
-                    <td th:text="${project.getStatus()}"></td>
-                    <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
+                    <td th:text="${projectTeacherBind.get(project).getName()}"></td>
+                    <td th:text="${projectTeacherBind.get(project).getTitle()}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a class="layui-btn layui-btn-sm layui-btn-normal" th:href="@{/project/stage/}+${project.getpId()}">阶段管理</a>
+                            <a class="layui-btn layui-btn-primary layui-border-green layui-btn-sm" th:href="@{/project/choose/}+${project.getpId()}">选题</a>
                         </div>
                     </td>
                 </tr>
