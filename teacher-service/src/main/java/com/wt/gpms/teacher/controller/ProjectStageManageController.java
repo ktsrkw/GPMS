@@ -87,6 +87,7 @@ public class ProjectStageManageController {
                     projectFile.setTitle(uploadFile.getOriginalFilename());
                     projectFile.setPsId(projectStage.getPsId());
                     projectFile.setpId(projectStage.getpId());
+                    projectFile.setUserType("教师");
 
                     //保存到服务器
                     //1、创建保存到服务器的路径
@@ -120,7 +121,7 @@ public class ProjectStageManageController {
             }
         }
 
-        return "redirect:/project/stage";
+        return "redirect:/project/stage/" + projectStage.getpId();
     }
 
     @PostMapping("/project/stage/search")

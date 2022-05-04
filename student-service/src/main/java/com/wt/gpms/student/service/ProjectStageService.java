@@ -53,4 +53,6 @@ public interface ProjectStageService {
      * @return 结果
      */
     int deleteProjectStageByIds(Integer[] psIds);
+
+    int projectChooseCancel(Integer pId);
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>信息概览</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
+
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <h1>[[${projectStage.getName()}]]</h1>
+            <br>
+            <br>
+
+            <h1>阶段要求</h1>
+            <br>
+            <h3>[[${projectStage.getContent()}]]</h3>
+            <br>
+            <br>
+
+            <h1>可下载文件</h1>
+            <br>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>文件名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="projectFile:${projectFileList}">
+                    <td th:text="${projectFile.getTitle()}"></td>
+                    <td>
+                        <a class="layui-btn layui-btn-sm layui-btn-warm"
+                           th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <br>
+
+            <div th:if="${projectStage.getStatus() > 0}">
+                <h1>上传我的作业</h1>
+                <br>
+                <form class="layui-form" th:action="@{/project/stage/file/upload}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="psId" th:value="${projectStage.getPsId()}">
+                    <input type="hidden" name="pId" th:value="${projectStage.getpId()}">
+                    <input type="hidden" name="name" th:value="${projectStage.getName()}">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上传文件</label>
+                        <div class="layui-input-block">
+                            <input type="file" name="uploadFiles" multiple>
+                            <p>*可按住Ctrl键同时选中多个文件上传，总大小小于500MB*</p>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit type="submit">开始上传</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
+</body>
+</html>

@@ -81,4 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <update id="projectChooseCancel" parameterType="Integer">
+        update project_stage set start_time = null ,end_time = null ,status = 0
+                                where p_id = #{pId}
+    </update>
 </mapper>

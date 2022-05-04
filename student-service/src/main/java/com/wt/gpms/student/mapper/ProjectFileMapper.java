@@ -1,6 +1,6 @@
 package com.wt.gpms.student.mapper;
 
-import com.wt.gpms.student.pojo.ProjectStage;
+import com.wt.gpms.student.pojo.ProjectFile;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -8,55 +8,53 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface ProjectStageMapper 
+public interface ProjectFileMapper 
 {
     /**
      * 查询【请填写功能名称】
      * 
-     * @param psId 【请填写功能名称】ID
+     * @param pfId 【请填写功能名称】ID
      * @return 【请填写功能名称】
      */
-    ProjectStage selectProjectStageById(Integer psId);
+    ProjectFile selectProjectFileById(Integer pfId);
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param projectStage 【请填写功能名称】
+     * @param projectFile 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    List<ProjectStage> selectProjectStageList(ProjectStage projectStage);
+    List<ProjectFile> selectProjectFileList(ProjectFile projectFile);
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param projectStage 【请填写功能名称】
+     * @param projectFile 【请填写功能名称】
      * @return 结果
      */
-    int insertProjectStage(ProjectStage projectStage);
+    int insertProjectFile(ProjectFile projectFile);
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param projectStage 【请填写功能名称】
+     * @param projectFile 【请填写功能名称】
      * @return 结果
      */
-    int updateProjectStage(ProjectStage projectStage);
+    int updateProjectFile(ProjectFile projectFile);
 
     /**
      * 删除【请填写功能名称】
      * 
-     * @param psId 【请填写功能名称】ID
+     * @param pfId 【请填写功能名称】ID
      * @return 结果
      */
-    int deleteProjectStageById(Integer psId);
+    int deleteProjectFileById(Integer pfId);
 
     /**
      * 批量删除【请填写功能名称】
      * 
-     * @param psIds 需要删除的数据ID
+     * @param pfIds 需要删除的数据ID
      * @return 结果
      */
-    int deleteProjectStageByIds(Integer[] psIds);
-
-    int projectChooseCancel(Integer pId);
+    int deleteProjectFileByIds(Integer[] pfIds);
 }

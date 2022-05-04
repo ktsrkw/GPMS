@@ -18,11 +18,126 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <h1>进度提示</h1>
-            <div th:text="${projectStageList}"></div>
+            <br>
+            <div class="layui-btn-group">
+                <button th:if="${projectStageList.get(0).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">立题表</button>
+                <button th:if="${projectStageList.get(0).getStatus() > 0}" type="button" class="layui-btn layui-btn-lg">立题表</button>
+
+                <button th:if="${projectStageList.get(1).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">任务书</button>
+                <button th:if="${projectStageList.get(1).getStatus() > 0}" type="button" class="layui-btn layui-btn-lg">任务书</button>
+
+                <button th:if="${projectStageList.get(2).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">论文翻译</button>
+                <button th:if="${projectStageList.get(2).getStatus() > 0}" type="button" class="layui-btn layui-btn-lg">论文翻译</button>
+
+                <button th:if="${projectStageList.get(3).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">开题报告</button>
+                <button th:if="${projectStageList.get(3).getStatus() > 0}"  type="button" class="layui-btn layui-btn-lg">开题报告</button>
+
+                <button th:if="${projectStageList.get(4).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">中期检查</button>
+                <button th:if="${projectStageList.get(4).getStatus() > 0}" type="button" class="layui-btn layui-btn-lg">中期检查</button>
+
+                <button th:if="${projectStageList.get(5).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">论文提交</button>
+                <button th:if="${projectStageList.get(5).getStatus() > 0}" type="button" class="layui-btn layui-btn-lg">论文提交</button>
+
+                <button th:if="${projectStageList.get(6).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">答辩</button>
+                <button th:if="${projectStageList.get(6).getStatus() > 0}" type="button" class="layui-btn layui-btn-lg">答辩</button>
+            </div>
+            <h4>*青色代表已经历阶段，灰色代表未经历阶段</h4>
+            <br>
+            <br>
+
             <h1>我的课题</h1>
-            <div th:text="${project.toString()}"></div>
+            <br>
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题题目</label>
+                    <div class="layui-input-block">
+                        <input th:value="${project.getTitle()}" disabled="disabled" type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">课题描述</label>
+                    <div class="layui-input-block">
+                        <textarea th:text="${project.getContent()}" disabled="disabled" name="content" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题类型</label>
+                    <div class="layui-input-block">
+                        <input th:value="${project.getType()}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题性质</label>
+                    <div class="layui-input-block">
+                        <input th:value="${project.getNature()}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题状态</label>
+                    <div class="layui-input-block">
+                        <input th:value="${project.getStatus()}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选题时间</label>
+                    <div class="layui-input-block">
+                        <input th:value="${#dates.format(project.getSelectionTime(),'yyyy-MM-dd')}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+            <br>
+            <br>
+
             <h1>我的导师</h1>
-            <div th:text="${teacher.toString()}"></div>
+            <br>
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教师姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getName()}" disabled="disabled" required
+                               lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getGender()}" disabled="disabled" required
+                               lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属学院</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getSchool()}" disabled="disabled" required
+                               lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教师职称</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getTitle()}" disabled="disabled" required
+                               lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getTele()}" disabled="disabled" required
+                               lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${teacher.getEmail()}" disabled="disabled" required
+                               lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+            <br>
+            <br>
+            <br>
+            <br>
         </div>
     </div>
 

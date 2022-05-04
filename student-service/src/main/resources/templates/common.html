@@ -30,15 +30,14 @@
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
             <li class="layui-nav-item"><a th:href="@{/project}">信息概览</a></li>
             <li class="layui-nav-item"><a th:href="@{/project/choose}">选题管理</a></li>
-<!--            <li class="layui-nav-item">-->
-<!--                <a class="" href="javascript:;">毕设课题管理</a>-->
-<!--                <dl class="layui-nav-child">-->
-<!--                    <dd><a th:href="@{/project}">查看我的课题</a></dd>-->
-<!--                    <dd><a th:href="@{/project/stage}">添加阶段要求与文档</a></dd>-->
-<!--                </dl>-->
-<!--            </li>-->
-            <li class="layui-nav-item"><a th:href="@{/student}">我的学生</a></li>
-            <li class="layui-nav-item"><a th:href="@{/project/process}">过程记录表批改</a></li>
+            <li class="layui-nav-item">
+                <a class="" href="javascript:;">毕设进程管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/project/stage}">阶段管理</a></dd>
+                    <dd><a th:href="@{/project/stage/file}">过程文档管理</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a th:href="@{/project/process}">过程记录表</a></li>
             <li class="layui-nav-item"><a th:href="@{/update}">个人信息更新</a></li>
         </ul>
     </div>

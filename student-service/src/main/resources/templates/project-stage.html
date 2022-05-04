@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>阶段管理</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
+
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <h1>[[${title}]]</h1>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>阶段名称</th>
+                    <th>阶段状态</th>
+                    <th>阶段开始时间</th>
+                    <th>阶段结束时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="projectStage:${projectStageList}">
+                    <td th:text="${projectStage.getName()}"></td>
+                    <td th:text="${projectStage.getStatus().equals(0)}?'未开始':(${projectStage.getStatus().equals(1)}?'进行中':'已完成')"></td>
+                    <td th:text="${projectStage.getStartTime() != null}?${#dates.format(projectStage.getStartTime(),'yyyy-MM-dd')}:'未开始'"></td>
+                    <td th:text="${projectStage.getEndTime() != null}?${#dates.format(projectStage.getEndTime(),'yyyy-MM-dd')}:'未结束'"></td>
+                    <td>
+                        <div class="layui-btn-group">
+                            <a class="layui-btn layui-btn-sm layui-btn-primary layui-border-red" th:href="@{/project/stage/manage/}+${projectStage.getPsId()}">阶段管理</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
+
+</body>
+</html>

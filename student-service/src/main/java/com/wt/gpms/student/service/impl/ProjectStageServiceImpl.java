@@ -42,4 +42,9 @@ public class ProjectStageServiceImpl implements ProjectStageService {
     public int deleteProjectStageByIds(Integer[] psIds) {
         return projectStageMapper.deleteProjectStageByIds(psIds);
     }
+
+    @Override
+    public int projectChooseCancel(Integer pId) {
+        return projectStageMapper.projectChooseCancel(pId);
+    }
 }

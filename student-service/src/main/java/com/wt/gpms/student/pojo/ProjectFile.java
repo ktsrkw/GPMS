@@ -1,4 +1,4 @@
-package com.wt.gpms.teacher.pojo;
+package com.wt.gpms.student.pojo;
 
 public class ProjectFile
 {
