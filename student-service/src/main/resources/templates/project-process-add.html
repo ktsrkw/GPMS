@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增过程记录</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
+
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <h1>过程记录表 第[[${projectProcess.getTimes()}]]次记录</h1>
+            <br>
+            <br>
+            <form class="layui-form" th:action="@{/project/process/add}" method="post">
+                <input type="hidden" name="times" th:value="${projectProcess.getTimes()}">
+                <input type="hidden" name="pId" th:value="${projectProcess.getpId()}">
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">记录内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" placeholder="请输入记录内容" required  lay-verify="required" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit type="submit">新增记录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
+
+</body>
+</html>

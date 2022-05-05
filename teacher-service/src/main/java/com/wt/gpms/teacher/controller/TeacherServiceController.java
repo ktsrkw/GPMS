@@ -89,7 +89,7 @@ public class TeacherServiceController {
     }
 
     //路由到更新信息页面
-    @GetMapping("/update")
+    @GetMapping("/update.html")
     public String toUpdatePage(Model model, HttpSession session){
         model.addAttribute("teacher",
                 teacherService.selectTeacherById((Integer) session.getAttribute("tId")));
@@ -97,15 +97,31 @@ public class TeacherServiceController {
         return "teacher-update";
     }
 
-    //跟新信息
+    //更新信息
     @PostMapping("/update")
-    public String updateInfo(Model model, Teacher teacher, HttpSession session){
-        teacherService.updateTeacher(teacher);
+    public String updateInfo(Model model,
+                             Teacher teacher,
+                             HttpSession session,
+                             String passwordConfirm){
+        //检查当前教师是否为传过来的更新信息的教师
+        if (teacher.gettId().equals((Integer) session.getAttribute("tId"))){
+            //允许更新
+            //检查两次密码输入是否一致
+            if (teacher.getPassword().equals(passwordConfirm)){
+                //两次密码输入一致，更新
+                teacherService.updateTeacher(teacher);
+                model.addAttribute("msg","更新成功！");
+            } else {
+                //不一致，存入提示信息
+                model.addAttribute("msg","两次密码输入不一致");
+            }
         model.addAttribute("teacher",
                 teacherService.selectTeacherById((Integer) session.getAttribute("tId")));
-        model.addAttribute("msg","更新成功!");
-
-        return "teacher-update";
+            return "teacher-update";
+        } else {
+            //不允许更新，重定向
+            return "redirect:/update.html";
+        }
     }
 
 }

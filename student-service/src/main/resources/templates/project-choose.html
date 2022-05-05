@@ -17,7 +17,13 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
+        <div th:if="${createStatus.equals(0)}" style="padding: 15px;">
+            <!--选题功能没有开启，则显示本标签-->
+            <h1>选题功能没有开启，无法选题，可联系管理员开启</h1>
+        </div>
+
+        <div th:if="${createStatus.equals(1)}" style="padding: 15px;">
+            <!--选题功能开启了，则开放本标签-->
             <form class="layui-form layui-form-pane" th:action="@{/project/search}" method="post">
                 <div class="layui-form-item">
                     <label class="layui-form-label">

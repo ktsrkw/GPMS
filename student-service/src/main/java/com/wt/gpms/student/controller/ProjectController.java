@@ -1,13 +1,7 @@
 package com.wt.gpms.student.controller;
 
-import com.wt.gpms.student.pojo.Project;
-import com.wt.gpms.student.pojo.ProjectFile;
-import com.wt.gpms.student.pojo.ProjectStage;
-import com.wt.gpms.student.pojo.Teacher;
-import com.wt.gpms.student.service.ProjectFileService;
-import com.wt.gpms.student.service.ProjectService;
-import com.wt.gpms.student.service.ProjectStageService;
-import com.wt.gpms.student.service.TeacherService;
+import com.wt.gpms.student.pojo.*;
+import com.wt.gpms.student.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +26,12 @@ public class ProjectController {
 
     @Autowired
     ProjectFileService projectFileService;
+
+    @Autowired
+    ProjectProcessService projectProcessService;
+
+    @Autowired
+    SystemStatusService systemStatusService;
 
     //路由到project页面
     @GetMapping("/project")
@@ -73,26 +73,33 @@ public class ProjectController {
             return "project-choose-cancel";
         } else {
             //学生尚未选题
-            //TODO:开启选题逻辑前，检查选题功能是否被管理员关闭
-            //拿到还未选题的课题
-            Project project1 = new Project();
-            project1.setStatus("待选题");
-            List<Project> originalProjectList = projectService.selectProjectList(project1);
+            //开启选题逻辑前，检查选题功能是否被管理员关闭
+            if (systemStatusService.getChooseStatus().equals(1)){
+                //选题功能开启，展示未选课题
+                //拿到还未选题的课题
+                Project project1 = new Project();
+                project1.setStatus("待选题");
+                List<Project> originalProjectList = projectService.selectProjectList(project1);
 
-            //从中筛选出学生所在学院的选题
-            List<Project> projectList = new ArrayList<>();
-            Map<Project, Teacher> projectTeacherBind = new HashMap<>();
-            for (Project project2 : originalProjectList) {
-                //如果课题所属学院与该同学学院相符，则留下此课题
-                if (teacherService.selectTeacherById(project2.gettId()).getSchool().equals((String) session.getAttribute("school"))){
-                    projectList.add(project2);
-                    projectTeacherBind.put(project2,teacherService.selectTeacherById(project2.gettId()));
+                //从中筛选出学生所在学院的选题
+                List<Project> projectList = new ArrayList<>();
+                Map<Project, Teacher> projectTeacherBind = new HashMap<>();
+                for (Project project2 : originalProjectList) {
+                    //如果课题所属学院与该同学学院相符，则留下此课题
+                    if (teacherService.selectTeacherById(project2.gettId()).getSchool().equals((String) session.getAttribute("school"))){
+                        projectList.add(project2);
+                        projectTeacherBind.put(project2,teacherService.selectTeacherById(project2.gettId()));
+                    }
                 }
-            }
 
-            //将符合的课题送到前台
-            model.addAttribute("projects",projectList);
-            model.addAttribute("projectTeacherBind",projectTeacherBind);
+                //将符合的课题送到前台
+                model.addAttribute("projects",projectList);
+                model.addAttribute("projectTeacherBind",projectTeacherBind);
+            } else {
+                //选题功能关闭
+                model.addAttribute("msg","选题功能没有开启，无法选题，可联系管理员开启");
+            }
+            model.addAttribute("createStatus",systemStatusService.getCreateStatus());
             return "project-choose";
         }
     }
@@ -112,30 +119,41 @@ public class ProjectController {
             return "project-choose-cancel";
         } else {
             //学生尚未选题
-            //TODO:开启选题逻辑前，检查选题功能是否被管理员关闭
-            //TODO:进入选题逻辑前判断此课题是否已被选
-            //进入选题逻辑，既更改project的sId等字段使之与学生关联起来
-            Project project = projectService.selectProjectById(pId);
-            project.setsId((Integer) session.getAttribute("sId"));
-            project.setSelectionTime(new Date());
-            project.setStatus("进行中");
-            projectService.updateProject(project);
+            //开启选题逻辑前，检查选题功能是否被管理员关闭
+            if (systemStatusService.getChooseStatus().equals(1)){
+                //选题功能开启
+                //进入选题逻辑前再次判断此课题是否已被选
+                Project project = projectService.selectProjectById(pId);
+                if (!project.getStatus().equals("带选题")){
+                    //如果此时课题已被选，选题失败
+                    model.addAttribute("msg","手慢了一步，该课题已被选");
+                    return "project-choose-fail";
+                }
+                //进入选题逻辑，既更改project的sId等字段使之与学生关联起来
+                project.setsId((Integer) session.getAttribute("sId"));
+                project.setSelectionTime(new Date());
+                project.setStatus("进行中");
+                projectService.updateProject(project);
 
-            //同时选题的那一刻意味着”立题表阶段的开始“，为该课题的”立题表阶段的开始“设置startTime
-            ProjectStage projectStage = new ProjectStage();
-            projectStage.setpId(pId);
-            projectStage.setName("立题表提交阶段");
-            List<ProjectStage> projectStageList = projectStageService.selectProjectStageList(projectStage);
-            projectStage = projectStageList.get(0);
-            projectStage.setStartTime(new Date());
-            projectStage.setStatus(1);
-            projectStageService.updateProjectStage(projectStage);
+                //同时选题的那一刻意味着”立题表阶段的开始“，为该课题的”立题表阶段的开始“设置startTime
+                ProjectStage projectStage = new ProjectStage();
+                projectStage.setpId(pId);
+                projectStage.setName("立题表提交阶段");
+                List<ProjectStage> projectStageList = projectStageService.selectProjectStageList(projectStage);
+                projectStage = projectStageList.get(0);
+                projectStage.setStartTime(new Date());
+                projectStage.setStatus(1);
+                projectStageService.updateProjectStage(projectStage);
+            } else {
+                //选题功能关闭
+                model.addAttribute("createStatus",systemStatusService.getCreateStatus());
+                return "project-choose";
+            }
+            return "redirect:/project";
         }
-
-        return "redirect:/project";
     }
 
-    //学生退选
+    //学生退选课题
     @GetMapping("/project/choose/cancel/{pId}")
     public String projectChooseCancel(@PathVariable("pId") Integer pId,
                                       HttpSession session){
@@ -167,6 +185,9 @@ public class ProjectController {
                 //在数据库中删除文件记录
                 projectFileService.deleteProjectFileById(file.getPfId());
             }
+
+            //删除此课题的过程记录表
+            projectProcessService.deleteProjectProcessBypId(pId);
 
         }
         return "redirect:/project/choose";
@@ -214,4 +235,5 @@ public class ProjectController {
         return "project-stage-file";
     }
 
+    //TODO:学生选题搜索功能
 }

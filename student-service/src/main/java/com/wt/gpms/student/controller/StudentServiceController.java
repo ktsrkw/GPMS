@@ -90,4 +90,40 @@ public class StudentServiceController {
         return "redirect:/login.html";
     }
 
+    //跳转到修改信息页面
+    @GetMapping("/update.html")
+    public String toUpdateStudentInfoPage(HttpSession session,Model model){
+        Student student = studentService.getStudentById((Integer) session.getAttribute("sId"));
+        model.addAttribute("student",student);
+
+        return "student-update";
+    }
+
+    //学生更新信息
+    @PostMapping("/update")
+    public String updateStudentInfo(Student student,
+                                    Model model,
+                                    HttpSession session,
+                                    String passwordConfirm){
+        //检查当前学生是否为传过来的更新信息的学生
+        if (student.getsId().equals((Integer) session.getAttribute("sId"))){
+            //允许更新
+            //检查两次密码输入是否一致
+            if (student.getPassword().equals(passwordConfirm)){
+                //两次密码输入一致，更新
+                studentService.updateStudentInfo(student);
+                model.addAttribute("msg","更新成功！");
+            } else {
+                //不一致，存入提示信息
+                model.addAttribute("msg","两次密码输入不一致");
+            }
+            model.addAttribute("student",
+                    studentService.getStudentById((Integer) session.getAttribute("sId")));
+            return "student-update";
+        } else {
+            //不允许更新，重定向
+            return "redirect:/update.html";
+        }
+    }
+
 }

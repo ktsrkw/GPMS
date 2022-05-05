@@ -102,6 +102,8 @@ public class ProjectFileController {
                     projectFileService.insertProjectFile(projectFile);
                 }
             }
+        } else {
+            return "redirect:/project/stage";
         }
 
         //修改project_stage表的状态，结束当前阶段，进入下一阶段，还要判断答辩完成时进行操作
@@ -189,6 +191,25 @@ public class ProjectFileController {
             //学生尚未选题，重定向到project-choose页面
             return "redirect:/project/choose";
         }
+    }
+
+    //根据id删除文件
+    @GetMapping("/project/stage/file/delete/{pfId}")
+    public String fileDeleteById(@PathVariable("pfId") Integer pfId,
+                                 HttpSession session){
+        //检查学生是否为此文件的拥有者
+        ProjectFile projectFile = projectFileService.selectProjectFileById(pfId);
+        Project project = projectService.selectProjectById(projectFile.getpId());
+        if (project.getsId().equals((Integer) session.getAttribute("sId"))){
+            //当前学生是文件的拥有者，可以删除
+            File file = new File(projectFile.getPath());
+            if (file.isFile() && file.exists()){
+                file.delete();
+            }
+            projectFileService.deleteProjectFileById(projectFile.getPfId());
+        }
+
+        return "redirect:/project/stage/file";
     }
 
 }

@@ -1,10 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>信息概览</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 </head>
 <body>
+<div class="layui-layout layui-layout-admin">
+    <!--引入公共头部-->
+    <div th:replace="common :: #common-header"></div>
 
+    <!--引入公共侧边栏-->
+    <div th:replace="common :: #common-side"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <h1>我上传的过程文档</h1>
+            <br>
+            <br>
+
+            <div th:if="${!projectFileList1.isEmpty()}">
+                <h1>立题表提交阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList1}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <div th:if="${!projectFileList2.isEmpty()}">
+                <h1>任务书提交阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList2}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <div th:if="${!projectFileList3.isEmpty()}">
+                <h1>论文翻译提交阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList3}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <div th:if="${!projectFileList4.isEmpty()}">
+                <h1>开题报告提交阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList4}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <div th:if="${!projectFileList5.isEmpty()}">
+                <h1>中期检查阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList5}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <div th:if="${!projectFileList6.isEmpty()}">
+                <h1>论文提交阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList6}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <div th:if="${!projectFileList7.isEmpty()}">
+                <h1>答辩阶段</h1>
+                <br>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="projectFile:${projectFileList7}">
+                        <td th:text="${projectFile.getTitle()}"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"
+                                   th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
+                                <a class="layui-btn layui-btn-primary layui-border-red layui-btn-sm"
+                                   th:href="@{/project/stage/file/delete/}+${projectFile.getPfId()}">删除文件</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+
+    <!--引入公共底部-->
+    <div th:replace="common :: #common-bottom"></div>
+</div>
+
+<!--引入公共script-->
+<div th:replace="common :: #common-script"></div>
 </body>
 </html>
