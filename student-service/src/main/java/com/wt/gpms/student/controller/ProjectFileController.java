@@ -113,7 +113,10 @@ public class ProjectFileController {
         projectStage.setEndTime(new Date());
         projectStageService.updateProjectStage(projectStage);
         if (projectStage.getName().equals("答辩阶段")){
-            //TODO:答辩完成时的操作，等待打分等等
+            //设置课题状态为“待评分”
+            Project project = projectService.selectProjectById(projectStage.getpId());
+            project.setStatus("待评分");
+            projectService.updateProject(project);
         } else {
             //本阶段非最后阶段（答辩），进入下一个阶段
             ProjectStage projectStage1 = new ProjectStage();

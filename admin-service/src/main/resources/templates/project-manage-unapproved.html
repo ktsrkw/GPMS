@@ -47,12 +47,17 @@
                     <td th:text="${project.getStatus()}"></td>
                     <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
                     <td>
-                        <a class="layui-btn layui-btn-sm" th:href="@{/project/manage/approve/}+${project.getpId()}">审批</a>
+                        <a class="layui-btn layui-btn-sm" th:href="@{/project/manage/approve/}+${project.getpId()}">进入审批</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
 
     <!--引入公共底部-->

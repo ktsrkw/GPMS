@@ -33,7 +33,14 @@
                 <a class="" href="javascript:;">毕设课题管理</a>
                 <dl class="layui-nav-child">
                     <dd><a th:href="@{/project}">查看我的课题</a></dd>
-                    <dd><a th:href="@{/project/stage}">添加阶段要求与文档</a></dd>
+                    <dd><a th:href="@{/project/stage}">阶段要求与文档上传</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a class="" href="javascript:;">过程文档管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/project/file/teacher}">我上传的文档</a></dd>
+                    <dd><a th:href="@{/project/file/student}">学生上传的文档</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a th:href="@{/student}">我的学生</a></li>

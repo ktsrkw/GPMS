@@ -31,8 +31,8 @@
                     <td th:text="${createStatus.equals(0)?'不可用':'可用'}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a th:if="${createStatus.equals(0)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/open/create}">开放立题</a>
-                            <a th:if="${createStatus.equals(1)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/close/create}">关闭立题</a>
+                            <a th:if="${createStatus.equals(0)}" class="layui-btn layui-btn-danger layui-btn-sm" th:href="@{/project/manage/open/create}">开放立题</a>
+                            <a th:if="${createStatus.equals(1)}" class="layui-btn layui-btn-danger layui-btn-sm" th:href="@{/project/manage/close/create}">关闭立题</a>
                         </div>
                     </td>
                 </tr>
@@ -41,8 +41,8 @@
                     <td th:text="${chooseStatus.equals(0)?'不可用':'可用'}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a th:if="${chooseStatus.equals(0)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/open/choose}">开放选题</a>
-                            <a th:if="${chooseStatus.equals(1)}" class="layui-btn layui-btn-sm" th:href="@{/project/manage/close/choose}">关闭选题</a>
+                            <a th:if="${chooseStatus.equals(0)}" class="layui-btn layui-btn-danger layui-btn-sm" th:href="@{/project/manage/open/choose}">开放选题</a>
+                            <a th:if="${chooseStatus.equals(1)}" class="layui-btn layui-btn-danger layui-btn-sm" th:href="@{/project/manage/close/choose}">关闭选题</a>
                         </div>
                     </td>
                 </tr>

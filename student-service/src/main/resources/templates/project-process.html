@@ -36,9 +36,9 @@
                     <td th:text="${projectProcess.getComments() == null}?'未评':'已评'"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a class="layui-btn layui-btn-sm"
+                            <a class="layui-btn layui-btn-sm layui-btn-normal"
                                th:href="@{/project/process/}+${projectProcess.getPpId()}">查看评语</a>
-                            <a class="layui-btn layui-btn-sm"
+                            <a class="layui-btn layui-btn-sm layui-btn-danger"
                                th:href="@{/project/process/update/}+${projectProcess.getPpId()}">修改内容</a>
                         </div>
                     </td>

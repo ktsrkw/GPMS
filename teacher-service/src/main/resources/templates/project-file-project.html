@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>学生选题</title>
+    <title>我的课题</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 </head>
 
@@ -17,31 +17,15 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div th:if="${chooseStatus.equals(0)}" style="padding: 15px;">
-            <!--选题功能没有开启，则显示本标签-->
-            <h1>选题功能没有开启，无法选题，可联系管理员开启</h1>
-        </div>
-
-        <div th:if="${chooseStatus.equals(1)}" style="padding: 15px;">
-            <!--选题功能开启了，则开放本标签-->
-            <form class="layui-form layui-form-pane" th:action="@{/project/search}" method="post">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">
-                        <button class="layui-btn layui-btn-fluid layui-btn-xs layui-btn-primary" lay-submit type="submit">搜索</button>
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" name="searchString" required  lay-verify="required" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </form>
+        <div style="padding: 15px;">
             <table class="layui-table">
                 <thead>
                 <tr>
                     <th>课题题目</th>
                     <th>课题类型</th>
                     <th>课题性质</th>
-                    <th>指导教师</th>
-                    <th>教师职称</th>
+                    <th>课题状态</th>
+                    <th>创建时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -50,11 +34,11 @@
                     <td th:text="${project.getTitle()}"></td>
                     <td th:text="${project.getType()}"></td>
                     <td th:text="${project.getNature()}"></td>
-                    <td th:text="${projectTeacherBind.get(project).getName()}"></td>
-                    <td th:text="${projectTeacherBind.get(project).getTitle()}"></td>
+                    <td th:text="${project.getStatus()}"></td>
+                    <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a class="layui-btn layui-btn-primary layui-border-green layui-btn-sm" th:href="@{/project/choose/}+${project.getpId()}">选题</a>
+                            <a class="layui-btn layui-btn-primary layui-border-green layui-btn-sm" th:href="@{/project/file/teacher/}+${project.getpId()}">管理文档</a>
                         </div>
                     </td>
                 </tr>

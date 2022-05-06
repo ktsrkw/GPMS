@@ -17,7 +17,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <h1>进度提示</h1>
+            <h1>进度提示[[${project.getStatus().equals('待评分')||project.getStatus().equals('已完成')}?'(本课题已完成)':'']]</h1>
             <br>
             <div class="layui-btn-group">
                 <button th:if="${projectStageList.get(0).getStatus().equals(0)}" type="button" class="layui-btn layui-btn-primary layui-btn-lg">立题表</button>
@@ -44,6 +44,13 @@
             <h4>*青色代表已经历阶段，灰色代表未经历阶段</h4>
             <br>
             <br>
+
+            <div th:if="${project.getStatus().equals('待评分')||project.getStatus().equals('已完成')}">
+                <!--当进入打分阶段或者打分完成后展示此标签-->
+                <h1>我的分数: [[${project.getPoint()}?:'等待教师打分']]</h1>
+                <br>
+                <br>
+            </div>
 
             <h1>我的课题</h1>
             <br>

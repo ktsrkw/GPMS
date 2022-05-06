@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -99,7 +100,7 @@ public class ProjectController {
                 //选题功能关闭
                 model.addAttribute("msg","选题功能没有开启，无法选题，可联系管理员开启");
             }
-            model.addAttribute("createStatus",systemStatusService.getCreateStatus());
+            model.addAttribute("chooseStatus",systemStatusService.getChooseStatus());
             return "project-choose";
         }
     }
@@ -124,7 +125,7 @@ public class ProjectController {
                 //选题功能开启
                 //进入选题逻辑前再次判断此课题是否已被选
                 Project project = projectService.selectProjectById(pId);
-                if (!project.getStatus().equals("带选题")){
+                if (!project.getStatus().equals("待选题")){
                     //如果此时课题已被选，选题失败
                     model.addAttribute("msg","手慢了一步，该课题已被选");
                     return "project-choose-fail";
@@ -138,6 +139,7 @@ public class ProjectController {
                 //同时选题的那一刻意味着”立题表阶段的开始“，为该课题的”立题表阶段的开始“设置startTime
                 ProjectStage projectStage = new ProjectStage();
                 projectStage.setpId(pId);
+                projectStage.setpId(pId);
                 projectStage.setName("立题表提交阶段");
                 List<ProjectStage> projectStageList = projectStageService.selectProjectStageList(projectStage);
                 projectStage = projectStageList.get(0);
@@ -146,7 +148,7 @@ public class ProjectController {
                 projectStageService.updateProjectStage(projectStage);
             } else {
                 //选题功能关闭
-                model.addAttribute("createStatus",systemStatusService.getCreateStatus());
+                model.addAttribute("chooseStatus",systemStatusService.getChooseStatus());
                 return "project-choose";
             }
             return "redirect:/project";
@@ -235,5 +237,51 @@ public class ProjectController {
         return "project-stage-file";
     }
 
-    //TODO:学生选题搜索功能
+    //学生选题搜索功能
+    @PostMapping("/project/search")
+    public String searchProjects(String searchString,
+                                 Model model,
+                                 HttpSession session){
+        //判断此学生是否选题
+        Project project = new Project();
+        project.setsId((Integer) session.getAttribute("sId"));
+        List<Project> projects = projectService.selectProjectList(project);
+        if (projects.size() > 0){
+            //学生有选题，进到退选页面
+            model.addAttribute("project", projects.get(0));
+            return "project-choose-cancel";
+        } else {
+            //学生尚未选题
+            //开启选题逻辑前，检查选题功能是否被管理员关闭
+            if (systemStatusService.getChooseStatus().equals(1)){
+                //选题功能开启，展示未选课题
+                //拿到符合搜索条件的选题
+                List<Project> originalProjectList = projectService.searchProjects(searchString);
+
+                //从中筛选出学生所在学院的选题&状态为“待选题”的课题
+                List<Project> projectList = new ArrayList<>();
+                Map<Project, Teacher> projectTeacherBind = new HashMap<>();
+                for (Project project2 : originalProjectList) {
+                    //如果此课题尚未被选
+                    if (project2.getStatus().equals("待选题")){
+                        //如果课题所属学院与该同学学院相符，则留下此课题
+                        if (teacherService.selectTeacherById(project2.gettId()).getSchool().equals((String) session.getAttribute("school"))){
+                            projectList.add(project2);
+                            projectTeacherBind.put(project2,teacherService.selectTeacherById(project2.gettId()));
+                        }
+                    }
+                }
+
+                //将符合的课题送到前台
+                model.addAttribute("projects",projectList);
+                model.addAttribute("projectTeacherBind",projectTeacherBind);
+            } else {
+                //选题功能关闭
+                model.addAttribute("msg","选题功能没有开启，无法选题，可联系管理员开启");
+            }
+            model.addAttribute("chooseStatus",systemStatusService.getChooseStatus());
+            return "project-choose";
+        }
+    }
+
 }

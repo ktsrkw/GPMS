@@ -41,6 +41,9 @@ public class TeacherManageController {
     @GetMapping("/teacher/manage/delete/{tId}")
     public String deleteTeacher(@PathVariable("tId") Integer tId){
         teacherClient.deleteTeacher(tId);
+
+        //TODO:删除教师时要删除此教师的立题信息
+
         return "redirect:/teacher/manage";
     }
 

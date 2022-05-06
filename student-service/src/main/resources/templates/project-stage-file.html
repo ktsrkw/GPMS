@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>信息概览</title>
+    <title>阶段要求与文件</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 </head>
 <body>
@@ -40,7 +40,7 @@
                 <tr th:each="projectFile:${projectFileList}">
                     <td th:text="${projectFile.getTitle()}"></td>
                     <td>
-                        <a class="layui-btn layui-btn-sm layui-btn-warm"
+                        <a class="layui-btn layui-btn-sm layui-btn-normal"
                            th:href="@{/project/stage/file/download/}+${projectFile.getPfId()}">点击下载</a>
                     </td>
                 </tr>
