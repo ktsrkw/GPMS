@@ -1,7 +1,10 @@
 package com.wt.gpms.teacher.controller;
 
+import com.alibaba.nacos.api.naming.pojo.healthcheck.impl.Http;
 import com.wt.gpms.teacher.pojo.Project;
+import com.wt.gpms.teacher.pojo.ProjectFile;
 import com.wt.gpms.teacher.pojo.ProjectStage;
+import com.wt.gpms.teacher.service.ProjectFileService;
 import com.wt.gpms.teacher.service.ProjectService;
 import com.wt.gpms.teacher.service.ProjectStageService;
 import com.wt.gpms.teacher.service.SystemStatusService;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +32,9 @@ public class ProjectManageController {
 
     @Autowired
     ProjectStageService projectStageService;
+
+    @Autowired
+    ProjectFileService projectFileService;
 
     //路由到教师的课题页面
     @GetMapping("/project")
@@ -96,8 +103,134 @@ public class ProjectManageController {
         return "project-info";
     }
 
-    //TODO:教师撤销（删除）立题
+    //教师撤销（删除）立题
+    @GetMapping("/project/cancel/{pId}")
+    public String cancelProject(@PathVariable("pId") Integer pId,
+                                HttpSession session,
+                                Model model){
+        Project project = projectService.selectProjectById(pId);
+        //已审批的立题无法删除，判断此立题是否已审批
+        if (project.getStatus().equals("待审批")){
+            //还未审批，可以撤销
+            //判断此教师是否为此立题的拥有者
+            if (project.gettId().equals((Integer) session.getAttribute("tId"))){
+                //符合，允许删除
+                //删除此课题的所有阶段记录
+                ProjectStage projectStageBypId = new ProjectStage();
+                projectStageBypId.setpId(pId);
+                List<ProjectStage> projectStageList = projectStageService.selectProjectStageList(projectStageBypId);
+                for (ProjectStage projectStage : projectStageList) {
+                    projectStageService.deleteProjectStageById(projectStage.getPsId());
+                }
 
-    //TODO:老师的打分功能
+                //删除此课题的所有文件
+                ProjectFile projectFileBypId = new ProjectFile();
+                projectFileBypId.setpId(pId);
+                List<ProjectFile> projectFileList = projectFileService.selectProjectFileList(projectFileBypId);
+                for (ProjectFile projectFile : projectFileList) {
+                    //删除磁盘上的文件
+                    File IOFile = new File(projectFile.getPath());
+                    if (IOFile.isFile() && IOFile.exists()){
+                        IOFile.delete();
+                    }
+
+                    //删除文件在数据库中的记录
+                    projectFileService.deleteProjectFileById(projectFile.getPfId());
+                }
+
+                //删除此课题的记录
+                projectService.deleteProjectById(pId);
+
+                return "redirect:/project";
+            } else {
+                //不符合，重定向到当前教师的课题页面
+                return "redirect:/project";
+            }
+
+        } else {
+            //不可撤销
+            model.addAttribute("msg","此课题已审批通过，不可撤销");
+            return "fail";
+        }
+
+    }
+
+    //老师的打分功能
+    //跳转到课题打分课题列表
+    @GetMapping("/project/score")
+    public String toProjectScoreListPage(HttpSession session,
+                                         Model model){
+        //拿到所有状态为“待评分”的课题和“已完成”的课题
+        Project project = new Project();
+        project.settId((Integer) session.getAttribute("tId"));
+        project.setStatus("待评分");
+        List<Project> projectList1 = projectService.selectProjectList(project);
+        project.setStatus("已完成");
+        List<Project> projectList2 = projectService.selectProjectList(project);
+        projectList1.addAll(projectList2);
+
+        model.addAttribute("projects",projectList1);
+
+        return "project-score";
+
+    }
+
+    //跳转到打分页面
+    @GetMapping("/project/score/{pId}")
+    public String toScoreProjectPage(@PathVariable("pId") Integer pId,
+                                     HttpSession session,
+                                     Model model){
+        Project project = projectService.selectProjectById(pId);
+        //判断课题是否可以打分
+        if (project.getStatus().equals("待评分") || project.getStatus().equals("已完成")){
+            //可以评分
+            //判断教师是否为此课题的教师
+            if (project.gettId().equals((Integer) session.getAttribute("tId"))){
+                //教师满足，可以进入评分
+                model.addAttribute("project",project);
+
+                return "project-score-point";
+            } else {
+                model.addAttribute("你不是此课题的发布者，无法评分");
+                return "fail";
+            }
+        } else {
+            //不可以评分，展示提示
+            model.addAttribute("此课题还未到评分阶段不可以评分");
+            return "fail";
+        }
+
+    }
+
+    //处理打分请求，保存分数
+    @PostMapping("/project/score/point")
+    public String scoreProject(Project project,
+                               HttpSession session,
+                               Model model){
+        //判断此教师是否为此课题的拥有者
+        if (project.gettId().equals((Integer) session.getAttribute("tId"))){
+            //允许打分
+            //判断课题状态是否为可评分
+            if (project.getStatus().equals("待评分") || project.getStatus().equals("已完成")){
+                //开始评分逻辑
+                //评分后状态应该为“已完成”
+                project.setStatus("已完成");
+
+                //提交评分
+                projectService.updateProject(project);
+
+                return "redirect:/project/score";
+            } else {
+                model.addAttribute("此课题还未到评分阶段不可以评分");
+                return "fail";
+            }
+
+        } else {
+            //跳转到失败页面
+            model.addAttribute("你不是此课题的发布者，无法评分");
+            return "fail";
+        }
+
+    }
 
 }

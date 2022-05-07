@@ -17,11 +17,22 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <form class="layui-form">
+            <h1>评分 [[${project.getTitle()}]]</h1>
+            <br>
+            <form class="layui-form" th:action="@{/project/score/point}" method="post">
+                <input type="hidden" name="pId" th:value="${project.getpId()}" >
+                <input type="hidden" name="tId" th:value="${project.gettId()}">
+                <input type="hidden" name="status" th:value="${project.getStatus()}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课题分数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="point" th:value="${project.getPoint()}" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请为课题打分">
+                    </div>
+                </div>
                 <div th:if="${project.getpNo() != null}" class="layui-form-item">
                     <label class="layui-form-label">课题编号</label>
                     <div class="layui-input-block">
-                        <input th:value="${project.getpNo()}" disabled="disabled" type="text" name="pNo" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入课题编号">
+                        <input th:value="${project.getpNo()}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入课题编号">
                     </div>
                 </div>
                 <div th:if="${project.getpNo() != null}" class="layui-form-item">
@@ -33,32 +44,26 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">课题题目</label>
                     <div class="layui-input-block">
-                        <input th:value="${project.getTitle()}" disabled="disabled" type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div th:if="${project.getPoint() != null}" class="layui-form-item">
-                    <label class="layui-form-label">课题分数</label>
-                    <div class="layui-input-block">
-                        <input th:value="${project.getPoint()}" disabled="disabled" type="text" name="point" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请为课题打分">
+                        <input th:value="${project.getTitle()}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">课题描述</label>
                     <div class="layui-input-block">
-                        <textarea th:text="${project.getContent()}" disabled="disabled" name="content" class="layui-textarea"></textarea>
+                        <textarea th:text="${project.getContent()}" disabled="disabled" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">课题类型</label>
                     <div class="layui-input-block">
-                        <input th:checked="${project.getType().equals('设计')}" disabled type="radio" name="type" value="设计" title="设计">
-                        <input th:checked="${project.getType().equals('论文')}" disabled type="radio" name="type" value="论文" title="论文">
+                        <input th:checked="${project.getType().equals('设计')}" disabled type="radio" value="设计" title="设计">
+                        <input th:checked="${project.getType().equals('论文')}" disabled type="radio" value="论文" title="论文">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">课题性质</label>
                     <div class="layui-input-block">
-                        <select name="nature" lay-verify="required">
+                        <select lay-verify="required">
                             <option th:selected="${project.getNature().equals('模拟题')}" disabled value="模拟题">模拟题</option>
                             <option th:selected="${project.getNature().equals('实际题')}" disabled value="实际题">实际题</option>
                             <option th:selected="${project.getNature().equals('科研题')}" disabled value="科研题">科研题</option>
@@ -66,15 +71,15 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">课题状态</label>
-                    <div class="layui-input-block">
-                        <input th:value="${project.getStatus()}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">课题创建时间</label>
                     <div class="layui-input-block">
                         <input th:value="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}" disabled="disabled" type="text" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit type="submit">提交打分</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
             </form>

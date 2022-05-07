@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.gpms.teacher.mapper.StudentMapper">
+    <select id="allStudents" resultType="Student">
+        select * from `student`
+    </select>
+
+    <select id="getStudentById" resultType="Student" parameterType="Integer">
+        select * from `student` where s_id = #{sId}
+    </select>
+
+    <select id="searchStudent" parameterType="String" resultType="Student">
+        select * from `student` where name like concat('%',#{searchString},'%')
+                            or school like concat('%',#{searchString},'%')
+                            or major like concat('%',#{searchString},'%')
+                            or class_no like concat('%',#{searchString},'%')
+                            or s_no like concat('%',#{searchString},'%')
+                            or tele like concat('%',#{searchString},'%')
+                            or email like concat('%',#{searchString},'%')
+                            or gender like concat('%',#{searchString},'%')
+    </select>
+
+    <update id="updateStudentInfo" parameterType="Student">
+        update `student`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sNo != null">s_no = #{sNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="major != null">major = #{major},</if>
+            <if test="classNo != null">class_no = #{classNo},</if>
+            <if test="tele != null">tele = #{tele},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password},</if>
+        </trim>
+        where s_id = #{sId}
+    </update>
+
+    <delete id="deleteStudentById" parameterType="Integer">
+        delete from `student` where s_id = #{sId}
+    </delete>
+
+    <insert id="addStudent" parameterType="Student">
+        insert into `student`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sNo != null">s_no,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="school != null">school,</if>
+            <if test="major != null">major,</if>
+            <if test="classNo != null">class_no,</if>
+            <if test="tele != null">tele,</if>
+            <if test="email != null">email,</if>
+            <if test="password != null">password,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sNo != null">#{sNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="school != null">#{school},</if>
+            <if test="major != null">#{major},</if>
+            <if test="classNo != null">#{classNo},</if>
+            <if test="tele != null">#{tele},</if>
+            <if test="email != null">#{email},</if>
+            <if test="password != null">#{password},</if>
+        </trim>
+    </insert>
+
+    <select id="selectStudentByNo" parameterType="String" resultType="Student">
+        select * from `student` where s_no = #{sNo}
+    </select>
+</mapper>

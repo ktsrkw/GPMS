@@ -18,38 +18,30 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <form class="layui-form layui-form-pane" th:action="@{/project/search}" method="post">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">
-                        <button class="layui-btn layui-btn-fluid layui-btn-xs layui-btn-primary" lay-submit type="submit">搜索</button>
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" name="searchString" required  lay-verify="required" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </form>
+            <h1>我的学生信息</h1>
             <table class="layui-table">
                 <thead>
                 <tr>
-                    <th>课题题目</th>
-                    <th>课题类型</th>
-                    <th>课题性质</th>
+                    <th>学生姓名</th>
+                    <th>学号</th>
+                    <th>选择课题</th>
+                    <th>选题时间</th>
                     <th>课题状态</th>
-                    <th>创建时间</th>
+                    <th>所处阶段</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="project:${projects}">
+                    <td th:text="${projectStudentMap.get(project).getName()}"></td>
+                    <td th:text="${projectStudentMap.get(project).getsNo()}"></td>
                     <td th:text="${project.getTitle()}"></td>
-                    <td th:text="${project.getType()}"></td>
-                    <td th:text="${project.getNature()}"></td>
-                    <td th:text="${project.getStatus()}"></td>
                     <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
+                    <td th:text="${project.getStatus()}"></td>
+                    <td th:text="${projectStageMap.get(project)}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a class="layui-btn layui-btn-sm" th:href="@{/project/}+${project.getpId()}">详细信息</a>
-                            <a class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/project/cancel/}+${project.getpId()}">撤销立题</a>
+                            <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm" th:href="@{/student/}+${project.getpId()}">详细信息</a>
                         </div>
                     </td>
                 </tr>
