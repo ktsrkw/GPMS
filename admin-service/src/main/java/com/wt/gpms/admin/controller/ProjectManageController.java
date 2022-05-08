@@ -147,6 +147,5 @@ public class ProjectManageController {
         return "project-manage-unapproved";
     }
 
-    //TODO:管理员删除立题
 
 }

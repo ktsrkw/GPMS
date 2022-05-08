@@ -45,8 +45,6 @@ public class StudentManageController {
         //调用接口删除
         studentClient.deleteStudentById(sId);
 
-        //TODO:删除学生时要删除此学生选题的信息
-
         return "redirect:/student/manage";
     }
 

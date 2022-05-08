@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.gpms.teacher.mapper.ProjectProcessMapper">
+    
+    <resultMap type="ProjectProcess" id="ProjectProcessResult">
+        <result property="ppId"    column="pp_id"    />
+        <result property="pId"    column="p_id"    />
+        <result property="times"    column="times"    />
+        <result property="recordTime"    column="record_time"    />
+        <result property="content"    column="content"    />
+        <result property="comments"    column="comments"    />
+    </resultMap>
+
+    <sql id="selectProjectProcessVo">
+        select pp_id, p_id, times, record_time, content, comments from project_process
+    </sql>
+
+    <select id="selectProjectProcessList" parameterType="ProjectProcess" resultMap="ProjectProcessResult">
+        <include refid="selectProjectProcessVo"/>
+        <where>  
+            <if test="pId != null  and pId != ''"> and p_id = #{pId}</if>
+            <if test="times != null "> and times = #{times}</if>
+            <if test="recordTime != null "> and record_time = #{recordTime}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="comments != null  and comments != ''"> and comments = #{comments}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectProcessById" parameterType="Integer" resultMap="ProjectProcessResult">
+        <include refid="selectProjectProcessVo"/>
+        where pp_id = #{ppId}
+    </select>
+        
+    <insert id="insertProjectProcess" parameterType="ProjectProcess">
+        insert into project_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ppId != null">pp_id,</if>
+            <if test="pId != null">p_id,</if>
+            <if test="times != null">times,</if>
+            <if test="recordTime != null">record_time,</if>
+            <if test="content != null">content,</if>
+            <if test="comments != null">comments,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ppId != null">#{ppId},</if>
+            <if test="pId != null">#{pId},</if>
+            <if test="times != null">#{times},</if>
+            <if test="recordTime != null">#{recordTime},</if>
+            <if test="content != null">#{content},</if>
+            <if test="comments != null">#{comments},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectProcess" parameterType="ProjectProcess">
+        update project_process
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pId != null">p_id = #{pId},</if>
+            <if test="times != null">times = #{times},</if>
+            <if test="recordTime != null">record_time = #{recordTime},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="comments != null">comments = #{comments},</if>
+        </trim>
+        where pp_id = #{ppId}
+    </update>
+
+    <delete id="deleteProjectProcessById" parameterType="Integer">
+        delete from project_process where pp_id = #{ppId}
+    </delete>
+
+    <delete id="deleteProjectProcessByIds" parameterType="Integer">
+        delete from project_process where pp_id in 
+        <foreach item="ppId" collection="array" open="(" separator="," close=")">
+            #{ppId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteProjectProcessBypId" parameterType="Integer">
+        delete from project_process where p_id = #{pId}
+    </delete>
+
+</mapper>

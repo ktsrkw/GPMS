@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>我的学生</title>
+    <title>过程记录表管理</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 </head>
 
@@ -18,35 +18,39 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <h1>我的学生信息</h1>
+            <h1>过程记录表批语</h1>
+            <br>
             <table class="layui-table">
                 <thead>
                 <tr>
-                    <th>学生姓名</th>
-                    <th>学号</th>
-                    <th>选择课题</th>
-                    <th>选题时间</th>
+                    <th>课题题目</th>
+                    <th>课题类型</th>
+                    <th>课题性质</th>
                     <th>课题状态</th>
-                    <th>所处阶段</th>
+                    <th>创建时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="project:${projects}">
-                    <td th:text="${projectStudentMap.get(project).getName()}"></td>
-                    <td th:text="${projectStudentMap.get(project).getsNo()}"></td>
                     <td th:text="${project.getTitle()}"></td>
-                    <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
+                    <td th:text="${project.getType()}"></td>
+                    <td th:text="${project.getNature()}"></td>
                     <td th:text="${project.getStatus()}"></td>
-                    <td th:text="${projectStageMap.get(project)}"></td>
+                    <td th:text="${#dates.format(project.getCreateTime(),'yyyy-MM-dd')}"></td>
                     <td>
                         <div class="layui-btn-group">
-                            <a class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm" th:href="@{/student/}+${project.getpId()}">详细信息</a>
+                            <a class="layui-btn layui-btn-primary layui-border-green layui-btn-sm"
+                               th:href="@{/project/process/list/}+${project.getpId()}">过程记录</a>
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <br>
+            <br>
+            <br>
+            <br>
         </div>
     </div>
 

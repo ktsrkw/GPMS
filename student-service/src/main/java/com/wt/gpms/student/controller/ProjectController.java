@@ -158,41 +158,58 @@ public class ProjectController {
     //学生退选课题
     @GetMapping("/project/choose/cancel/{pId}")
     public String projectChooseCancel(@PathVariable("pId") Integer pId,
-                                      HttpSession session){
-        //检查此学生是否为该课题的拥有者
-        Project project = projectService.selectProjectById(pId);
-        if (project.getsId().equals((Integer) session.getAttribute("sId"))){
-            //开始退选逻辑
-            //删除project表的selection_time与s_id的值，设置课题状态为“待选题”
-            project.setsId(0);
-            project.setStatus("待选题");
-            projectService.updateProject(project);
-
-            //删除project_stage表的start_time&end_time字段的值，重制status为0
-            projectStageService.projectChooseCancel(pId);
-
-            //删除project_file表的相关文件
-            //根据pId拿到文件列表
-            ProjectFile projectFile = new ProjectFile();
-            projectFile.setpId(pId);
-            projectFile.setUserType("学生");
-            List<ProjectFile> projectFileList = projectFileService.selectProjectFileList(projectFile);
-            //遍历这个List，删除文件后删除文件在数据库中的记录
-            for (ProjectFile file : projectFileList) {
-                //在磁盘上删除文件
-                File fileIO = new File(file.getPath());
-                if (fileIO.isFile() && fileIO.exists()){
-                    fileIO.delete();
-                }
-                //在数据库中删除文件记录
-                projectFileService.deleteProjectFileById(file.getPfId());
+                                      HttpSession session,
+                                      Model model){
+        //学生已开始课题(学生完成“立题表提交阶段”)则无法退选该课题
+        ProjectStage projectStageSearch = new ProjectStage();
+        projectStageSearch.setpId(pId);
+        projectStageSearch.setName("立题表提交阶段");
+        List<ProjectStage> projectStageListForConfirm = projectStageService.selectProjectStageList(projectStageSearch);
+        if (projectStageListForConfirm.size() > 0){
+            if (projectStageListForConfirm.get(0).getStatus().equals(2)){
+                //学生已完成“立题表提交阶段”无法退选
+                model.addAttribute("msg","你已开始进行课题，无法退选");
+                return "fail";
             }
+            //学生没有进行课题，开始退选逻辑
+            //检查此学生是否为该课题的拥有者
+            Project project = projectService.selectProjectById(pId);
+            if (project.getsId().equals((Integer) session.getAttribute("sId"))){
+                //开始退选逻辑
+                //删除project表的selection_time与s_id的值，设置课题状态为“待选题”
+                project.setsId(0);
+                project.setStatus("待选题");
+                projectService.updateProject(project);
 
-            //删除此课题的过程记录表
-            projectProcessService.deleteProjectProcessBypId(pId);
+                //删除project_stage表的start_time&end_time字段的值，重制status为0
+                projectStageService.projectChooseCancel(pId);
 
+                //删除project_file表的相关文件
+                //根据pId拿到文件列表
+                ProjectFile projectFile = new ProjectFile();
+                projectFile.setpId(pId);
+                projectFile.setUserType("学生");
+                List<ProjectFile> projectFileList = projectFileService.selectProjectFileList(projectFile);
+                //遍历这个List，删除文件后删除文件在数据库中的记录
+                for (ProjectFile file : projectFileList) {
+                    //在磁盘上删除文件
+                    File fileIO = new File(file.getPath());
+                    if (fileIO.isFile() && fileIO.exists()){
+                        fileIO.delete();
+                    }
+                    //在数据库中删除文件记录
+                    projectFileService.deleteProjectFileById(file.getPfId());
+                }
+
+                //删除此课题的过程记录表
+                projectProcessService.deleteProjectProcessBypId(pId);
+
+            }
+            return "redirect:/project/choose";
+        } else {
+            model.addAttribute("msg","此课题不存在");
+            return "fail";
         }
-        return "redirect:/project/choose";
     }
 
     //跳转到阶段管理页面
@@ -283,7 +300,5 @@ public class ProjectController {
             return "project-choose";
         }
     }
-
-    //TODO:学生已开始课题则无法退选该课题
 
 }
