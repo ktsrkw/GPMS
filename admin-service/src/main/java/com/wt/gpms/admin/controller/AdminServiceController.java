@@ -44,7 +44,7 @@ public class AdminServiceController {
                 //登录成功的标识，在session中放入用户名
                 session.setAttribute("username", admin.getName());
                 session.setAttribute("adminId", admin.getAdminId());
-                return "redirect:/student/manage";
+                return "redirect:/project/manage/open-close";
             } else {
                 //密码错误
                 model.addAttribute("msg", "密码错误");
