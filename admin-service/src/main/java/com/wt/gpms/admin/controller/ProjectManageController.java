@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,9 +43,20 @@ public class ProjectManageController {
     @GetMapping("/project/manage/approved")
     public String toProjectApprovedPage(Model model){
         //拿到所有已审批课题
-        Project project = new Project();
-        project.setStatus("待选题");
-        model.addAttribute("projects",projectService.selectProjectList(project));
+//        Project project = new Project();
+//        project.setStatus("待选题");
+//        model.addAttribute("projects",projectService.selectProjectList(project));
+
+        //查询到所有
+        Project projectSearch = new Project();
+        List<Project> projectList = projectService.selectProjectList(projectSearch);
+        List<Project> projects = new ArrayList<>();
+        for (Project project : projectList) {
+            if (!project.getStatus().equals("待审批")){
+                projects.add(project);
+            }
+        }
+        model.addAttribute("projects", projects);
 
         return "project-manage-approved";
     }
