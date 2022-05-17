@@ -17,7 +17,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <h1>第[[${projectProcess.getTimes()}]]次过程记 [[${project.getTitle()}]]</h1>
+            <h1>第[[${projectProcess.getTimes()}]]次过程记录 [[${project.getTitle()}]]</h1>
             <br>
             <form class="layui-form layui-form-pane" th:action="@{/project/process/update}" method="post">
                 <input type="hidden" name="ppId" th:value="${projectProcess.getPpId()}">

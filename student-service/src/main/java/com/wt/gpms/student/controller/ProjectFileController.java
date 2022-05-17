@@ -144,8 +144,9 @@ public class ProjectFileController {
             //学生有选题
             //拿到此学生各个阶段上传的文件
             ProjectFile projectFile = new ProjectFile();
-            projectFile.setpId(project.getpId());
+            projectFile.setpId(projectList.get(0).getpId());
             projectFile.setUserType("学生");
+            System.out.println(projectFile.toString());
             List<ProjectFile> projectFileList = projectFileService.selectProjectFileList(projectFile);
             //遍历文件列表，为文件分类
             List<ProjectFile> projectFileList1 = new ArrayList<>();//立题表提交阶段的文件列表
